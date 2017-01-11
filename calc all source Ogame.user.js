@@ -41,6 +41,8 @@ $(document).ready(function() {
   $('#deuterium_box').append('<br><span class="value"><span id="resources_deuterium_save" class="">' + GM_getValue("deut_save") + '</span></span>');
   $('#darkmatter_box').append('<br><span class="value allCalcSourceOgame">all</span>');
   $('#energy_box').append('<br><span class="value resetCalcSourceOgame">reset</span>');
+  $('.eventFleet').append('<td class="pompom">add</td>');
+  $("#box").append('<div id="masked" style="display: none"></div>');
 
   $("#metal_box").click(function() {
     var metal = parseInt($('#resources_metal').html().replace(/\./g, ""));
@@ -88,6 +90,31 @@ $(document).ready(function() {
     $('#resources_metal_save').html("0");
     $('#resources_crystal_save').html("0");
     $('#resources_deuterium_save').html("0");
+  });
+  $(".pompom").click(function(data) {
+      var html = $(data.target).parent().children(".icon_movement").children(".tooltip").attr("title");
+      $("#masked").html(html);
+      var metal = parseInt($("#masked td:contains('Métal')").parent().children(".value").html());
+      var cri = parseInt($("#masked td:contains('Cristal')").parent().children(".value").html());
+      var deut = parseInt($("#masked td:contains('Deutérium')").parent().children(".value").html());
+
+      var saveMetal = parseInt($('#resources_metal_save').html().replace(/\./g, ""));
+      var numberSource = spliter_number(saveMetal + metal);
+      $('#resources_metal_save').html(numberSource);
+      GM_setValue("met_save", numberSource);
+      var saveCri = parseInt($('#resources_crystal_save').html().replace(/\./g, ""));
+      var numberSourceCri = spliter_number(saveCri + cri);
+      $('#resources_crystal_save').html(numberSourceCri);
+      GM_setValue("cri_save", numberSourceCri);
+      var saveDeut = parseInt($('#resources_deuterium_save').html().replace(/\./g, ""));
+      var numberSourceDeut = spliter_number(saveDeut + deut);
+      $('#resources_deuterium_save').html(numberSourceDeut);
+      GM_setValue("deut_save", numberSourceDeut);
+
+      console.log(met + "-" + cri + "-" + deut);
+      //$(html).children(table).attr("cellpadding");
+    //console.log($(data.target).parent().children("tooltip").attr("title"));
+    //console.log($(data.target).parent().children("tooltip").attr("title"));
   });
 });
 
