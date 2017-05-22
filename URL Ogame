@@ -1,0 +1,32 @@
+/game/index.php?page=fleet1&galaxy=2&system=41&position=6&type=1&routine=3&am202=10
+
+/game/index.php?positio=fleet1&
+params:
+galaxy = 1 a 9
+system = 1 a 499
+position = 1 a 16
+type = 1 a 3 (1 planete, 2 champs de débris, 3 lunes)
+mission = 1 a 9 + 15
+			1 Attaquer
+			2 Attaque groupe
+			3 Transporter 
+			4 Stationner 
+			5 Stationner defendre
+			6 Espionner
+			7 Coloniser
+			8 Recycler
+			9 Detruire 
+			15 Expedition
+am202 = number vaisseaux -> petit transporteur
+am203 = number vaisseaux -> grand transporteur
+am208 = number vaisseaux -> colonisation
+am209 = number vaisseaux -> recycleur
+am210 = number vaisseaux -> sonde espionage
+am204 = number vaisseaux -> chasseur léger
+am205 = number vaisseaux -> chasseur lourd
+am206 = number vaisseaux -> croiseur
+am207 = number vaisseaux -> vaisseaux de bataille
+am215 = number vaisseaux -> Traqueur
+am211 = number vaisseaux -> Bombardier
+am213 = number vaisseaux -> Destructeur
+am214 = number vaisseaux -> Etoile de la mort
