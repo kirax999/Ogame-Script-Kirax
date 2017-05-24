@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.4
+// @version    0.5
 // @description  Opens all of the links from the CodeProject newsletter in one go
 // @match      *.ogame*
 // @include    *.ogame*
@@ -29,7 +29,7 @@ GM_addStyle(
     'line-height: 28px;' +
     'text-align: center;' +
     '}' +
-    '.Ghoster_menu #mainTable { ' +
+    '.Ghoster_menu { ' +
     'background: transparent url(//gf1.geo.gfsrv.net/cdn9e/4f73643e86a952be4aed7fdd61805a.gif) 5px 0 repeat-y;' +
     'padding: 5px 10px 0 10px;' +
     'margin: 0;' +
@@ -124,17 +124,22 @@ GM_addStyle(
     /* -------------- ------------------- -------------- */
     menuAdd += '</tr>';
     menuAdd += '<tr>';
-    menuAdd += '<table id="listSave">';
     menuAdd += '</table>';
     menuAdd += '</tr>';
-    menuAdd += '</table>';
-    menuAdd += '</div>';
-    $('#contentWrapper').append(menuAdd);
-    $('#listSave').append(GM_getValue("senario"));
+    menuAdd += '<table id="listSave">';
     senarioAll = GM_getValue("senario");
     if (senarioAll === undefined)
         senarioAll = [];
-    console.log("---"+ senarioAll);
+    console.log(senarioAll.lenght);
+    for (i = 0; i < senarioAll.length; i++) {
+        currentSenario = senarioAll[i];
+        console.log(currentSenario);
+        menuAdd += '<tr>' +
+            '<td>' + currentSenario.name + '</td><td><input value="start" type="button"></td><td><button id="removeButton" value="'+ i +'" type="button">remove</button></td>';
+    }
+    menuAdd += '</table>';
+    menuAdd += '</div>';
+    $('#contentWrapper').append(menuAdd);
 
     $(".Ghoster_menu #saveSenaio").click(function() {
         senarioAll = GM_getValue("senario");
