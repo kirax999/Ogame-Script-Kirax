@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.5
-// @description  Opens all of the links from the CodeProject newsletter in one go
+// @version    0.6
+// @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
 // @include    *.ogame*
-// @copyright  2012+, hibbard.eu
+// @copyright  MIT, Kirax999
 // @updateURL http://www.tipsvoorbesparen.nl/1.meta.js
 // @require http://code.jquery.com/jquery-latest.js
 
@@ -29,11 +29,11 @@ GM_addStyle(
     'line-height: 28px;' +
     'text-align: center;' +
     '}' +
-    '.Ghoster_menu { ' +
+    '.Ghoster_menu #mainTable, .Ghoster_menu #listSave { ' +
     'background: transparent url(//gf1.geo.gfsrv.net/cdn9e/4f73643e86a952be4aed7fdd61805a.gif) 5px 0 repeat-y;' +
     'padding: 5px 10px 0 10px;' +
     'margin: 0;' +
-    'text-align: center' +
+    'text-align: center;' +
     'width: 100%;' +
     '}' +
     '.Ghoster_menu #mainTable input { ' +
@@ -171,6 +171,13 @@ GM_addStyle(
         senarioAll.push(senario);
 
         GM_setValue("senario", senarioAll);
+    });
+
+    $(".Ghoster_menu #removeButton").click(function() {
+        senarioAll = GM_getValue("senario");
+        senarioAll.splice($(this).val(), 1);
+        senarioAll = GM_setValue("senario", senarioAll);
+        alert($(this).val());
     });
 /*
     $("#saveSendRemove").click(function() {
