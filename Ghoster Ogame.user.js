@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.7
+// @version    0.8
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
-// @include    *.ogame*
+// @include    *.ogame*/game/index.php?page=fleet1
 // @copyright  MIT, Kirax999
 // @updateURL http://www.tipsvoorbesparen.nl/1.meta.js
 // @require http://code.jquery.com/jquery-latest.js
