@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.6
+// @version    0.7
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
 // @include    *.ogame*
@@ -57,6 +57,18 @@ GM_addStyle(
     '}' +
     '.Ghoster_menu table#listParams .destination td:nth-child(2n), .Ghoster_menu table#listParams .source td:nth-child(2n) { ' +
     'text-align: center;' +
+    '}' +
+    '.Ghoster_menu .formButton {' +
+    'width: 75px;' +
+    'padding: 1px;' +
+    '}' +
+    '.Ghoster_menu #listSave {' +
+    'width: 75px;' +
+    'padding: 5px 30px 0 30px;' +
+    'width: 100%;' +
+    '}' +
+    '.Ghoster_menu #listSave td button {' +
+    'width: 100%;' +
     '}'
 );
 
@@ -89,7 +101,7 @@ GM_addStyle(
     menuAdd += '<table id="listParams">';
     menuAdd += '<tr><td id="name" class="textlabel">Name</td><td id="nameValue" class="textlabel"><input name="nameMission" type="text"></input></td></tr>';
     menuAdd += '<tr><td id="name" class="textlabel">Mission</td><td id="numberValue" class="textlabel">' +
-        '<select name="typeMission" form="carform">' +
+        '<select id="typeMission" name="typeMission" form="carform">' +
         '<option value="1">Attaquer</option>' +
         '<option value="2">Attaquer Grouper</option>' +
         '<option value="3">Transporter</option>' +
@@ -135,7 +147,10 @@ GM_addStyle(
         currentSenario = senarioAll[i];
         console.log(currentSenario);
         menuAdd += '<tr>' +
-            '<td>' + currentSenario.name + '</td><td><input value="start" type="button"></td><td><button id="removeButton" value="'+ i +'" type="button">remove</button></td>';
+            '<td>' + currentSenario.name + '</td>' +
+            '<td class="formButton"><button id="viewButton" value="'+ i +'">view</button></td>' +
+            '<td class="formButton"><button id="startButton" value="'+ i +'">start</input></td>' +
+            '<td class="formButton"><button id="removeButton" value="'+ i +'" type="button">remove</button></td>';
     }
     menuAdd += '</table>';
     menuAdd += '</div>';
@@ -165,7 +180,13 @@ GM_addStyle(
         data.crystal = $('#listParams input[name=crystal]').val();
         data.deutrium = $('#listParams input[name=deutrium]').val();
 
+        data.mission = $('#listParams #typeMission').val();
+
+        data.source = $('#listParams .source input[name=galaxy]').val() + ":" + $('#listParams .source input[name=system]').val() + ":" + $('#listParams .source input[name=planete]').val();
+        data.destination = $('#listParams .destination input[name=galaxy]').val() + ":" + $('#listParams .destination input[name=system]').val() + ":" + $('#listParams .destination input[name=planete]').val();
+
         senario.name = $('#listParams input[name=nameMission]').val();
+
         senario.data = data;
         console.log(senarioAll);
         senarioAll.push(senario);
@@ -177,7 +198,43 @@ GM_addStyle(
         senarioAll = GM_getValue("senario");
         senarioAll.splice($(this).val(), 1);
         senarioAll = GM_setValue("senario", senarioAll);
-        alert($(this).val());
+    });
+
+    $(".Ghoster_menu #viewButton").click(function() {
+        senarioAll = GM_getValue("senario");
+        senario = senarioAll[$(this).val()];
+        $('#listVaiseau input[name=pt]').val(senario.data.pt);
+        $('#listVaiseau input[name=gt]').val(senario.data.gt);
+        $('#listVaiseau input[name=vdc]').val(senario.data.vdc);
+        $('#listVaiseau input[name=recycleur]').val(senario.data.recycleur);
+        $('#listVaiseau input[name=sonde]').val(senario.data.sonde);
+        $('#listVaiseau input[name=cl]').val(senario.data.cl);
+        $('#listVaiseau input[name=cL]').val(senario.data.cL);
+        $('#listVaiseau input[name=croiseur]').val(senario.data.croiseur);
+        $('#listVaiseau input[name=vb]').val(senario.data.vb);
+        $('#listVaiseau input[name=traqueur]').val(senario.data.traqueur);
+        $('#listVaiseau input[name=bombardier]').val(senario.data.bombardier);
+        $('#listVaiseau input[name=destructeur]').val(senario.data.destructeur);
+        $('#listVaiseau input[name=edlm]').val(senario.data.edlm);
+
+        $('#listParams input[name=metal]').val(senario.data.metal);
+        $('#listParams input[name=crystal]').val(senario.data.crystal);
+        $('#listParams input[name=deutrium]').val(senario.data.deutrium);
+
+        var source = senario.data.source.split(":");
+        var destination = senario.data.destination.split(":");
+
+        $('#listParams #typeMission').val(senario.data.mission);
+
+        $('#listParams .source input[name=galaxy]').val(source[0]);
+        $('#listParams .source input[name=system]').val(source[1]);
+        $('#listParams .source input[name=planete]').val(source[2]);
+
+        $('#listParams .destination input[name=galaxy]').val(destination[0]);
+        $('#listParams .destination input[name=system]').val(destination[1]);
+        $('#listParams .destination input[name=planete]').val(destination[2]);
+
+        $('#listParams input[name=nameMission]').val(senario.name);
     });
 /*
     $("#saveSendRemove").click(function() {
