@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.8
+// @version    0.9
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
 // @include    *.ogame*/game/index.php?page=fleet1
@@ -12,9 +12,49 @@
 // @grant    GM_getValue
 // @grant    GM_setValue
 // @grant    GM_addStyle
+// @grant    GM_xmlhttpRequest
 // ==/UserScript==
 
 // @include         *.ogame*gameforge.com/game/index.php?page=*
+
+/*
+******************
+* info url Ogame *
+******************
+
+/game/index.php?page=fleet1&galaxy=2&system=41&position=6&type=1&routine=3&am202=10
+
+/game/index.php?positio=fleet1&
+params:
+galaxy = 1 a 9
+system = 1 a 499
+position = 1 a 16
+type = 1 a 3 (1 planete, 2 champs de débris, 3 lunes)
+mission = 1 a 9 + 15
+            1 Attaquer
+            2 Attaque groupe
+            3 Transporter
+            4 Stationner
+            5 Stationner defendre
+            6 Espionner
+            7 Coloniser
+            8 Recycler
+            9 Detruire
+            15 Expedition
+am202 = number vaisseaux -> petit transporteur
+am203 = number vaisseaux -> grand transporteur
+am208 = number vaisseaux -> colonisation
+am209 = number vaisseaux -> recycleur
+am210 = number vaisseaux -> sonde espionage
+am204 = number vaisseaux -> chasseur léger
+am205 = number vaisseaux -> chasseur lourd
+am206 = number vaisseaux -> croiseur
+am207 = number vaisseaux -> vaisseaux de bataille
+am215 = number vaisseaux -> Traqueur
+am211 = number vaisseaux -> Bombardier
+am213 = number vaisseaux -> Destructeur
+am214 = number vaisseaux -> Etoile de la mort
+*/
 
 // ==/UserScript==
 GM_addStyle(
@@ -113,11 +153,23 @@ GM_addStyle(
         '<option value="9">Detruire</option>' +
         '<option value="15">Expedition</option>' +
         '</select></td></tr>';
+    /*
+    menuAdd += '<tr><td id="name" class="textlabel">Source</td><td id="numberValue" class="textlabel">' +
+        '<select id="sourcePlanete" name="sourcePlanete" form="carform">' +
+        */
+        var coordonatePlanete = $("#planet-*");
+        console.log("++".coordonatePlanete);
+    /*
+        '<option value="1">Attaquer</option>' +
+        '</select></td></tr>';
+        */
+    /*
     menuAdd += '<tr class="source"><td>Source</td><td>' +
         '<input type="text" name="galaxy" size="1" value="0"></input>' +
         '<input type="text" name="system" size="3" value="0"></input>' +
         '<input type="text" name="planete" size="2" value="0"></input>' +
         '</td></tr>';
+        */
     menuAdd += '<tr class="destination"><td>Destination</td><td>' +
         '<input type="text" name="galaxy" size="1" value="0"></input>' +
         '<input type="text" name="system" size="3" value="0"></input>' +
@@ -235,6 +287,24 @@ GM_addStyle(
         $('#listParams .destination input[name=planete]').val(destination[2]);
 
         $('#listParams input[name=nameMission]').val(senario.name);
+    });
+
+    $(".Ghoster_menu #startButton").click(function() {
+        senarioAll = GM_getValue("senario");
+        senario = senarioAll[$(this).val()];
+        data = senario.data;
+
+        var source = data.source.split(":");
+        var destination = data.destination.split(":");
+
+        var url = "http://" + window.location.hostname + "/game/index.php/?page=fleet1&";
+        url += "galaxy=" + destination[0] + "&" +
+            "system=" + destination[1] + "&" +
+            "planete=" + destination[2] + "&";
+        url += "type=" + "1" + "&";
+        url += "mission=" + data.mission + "&";
+        url += "am202=" + data.pt;
+        console.log(url);
     });
 /*
     $("#saveSendRemove").click(function() {
