@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name       Ghoster Ogame
 // @namespace  http://richet.me/
-// @version    0.9
+// @version    1.0
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
-// @include    *.ogame*/game/index.php?page=fleet1
+// @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
 // @updateURL http://www.tipsvoorbesparen.nl/1.meta.js
 // @require http://code.jquery.com/jquery-latest.js
@@ -12,10 +12,9 @@
 // @grant    GM_getValue
 // @grant    GM_setValue
 // @grant    GM_addStyle
+// @grant    GM_deleteValue
 // @grant    GM_xmlhttpRequest
 // ==/UserScript==
-
-// @include         *.ogame*gameforge.com/game/index.php?page=*
 
 /*
 ******************
@@ -113,200 +112,275 @@ GM_addStyle(
 );
 
 (function() {
-    var menuAdd = '<div class="Ghoster_menu">';
-    menuAdd += '<table id="mainTable">';
-    menuAdd += '<tr><td colspan="2"><h2>Ghoster</h2></td></tr>';
-    menuAdd += '<tr>';
-    /* -------------- Panneau list Vaisseaux -------------- */
-    menuAdd += '<td>';
-    menuAdd += '<table id="listVaiseau">';
-    menuAdd += '<tr><td id="name" class="textlabel">Petit Transporteur</td><td id="numberValue" class="textlabel"><input name="pt" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Grand Transporteur</td><td id="numberValue" class="textlabel"><input name="gt" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">VDC</td><td id="numberValue" class="textlabel"><input name="vdc" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Recycleur</td><td id="numberValue" class="textlabel"><input name="recycleur" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Sonde</td><td id="numberValue" class="textlabel"><input name="sonde" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Chasseur Léger</td><td id="numberValue" class="textlabel"><input name="cl" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Chasseur Lourd</td><td id="numberValue" class="textlabel"><input name="cL" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Croiseur</td><td id="numberValue" class="textlabel"><input name="croiseur" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">VB</td><td id="numberValue" class="textlabel"><input name="vb" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Traqueur</td><td id="numberValue" class="textlabel"><input name="traqueur" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Bombardier</td><td id="numberValue" class="textlabel"><input name="bombardier" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Destructeur</td><td id="numberValue" class="textlabel"><input name="destructeur" type="text" value="0"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">EDLM</td><td id="numberValue" class="textlabel"><input name="edlm" type="text" value="0"></input></td></tr>';
-    menuAdd += '</table>';
-    menuAdd += '</td>';
-    /* -------------- Panneau list Params -------------- */
-    /* -------------- ------------------- -------------- */
-    menuAdd += '<td>';
-    menuAdd += '<table id="listParams">';
-    menuAdd += '<tr><td id="name" class="textlabel">Name</td><td id="nameValue" class="textlabel"><input name="nameMission" type="text"></input></td></tr>';
-    menuAdd += '<tr><td id="name" class="textlabel">Mission</td><td id="numberValue" class="textlabel">' +
-        '<select id="typeMission" name="typeMission" form="carform">' +
-        '<option value="1">Attaquer</option>' +
-        '<option value="2">Attaquer Grouper</option>' +
-        '<option value="3">Transporter</option>' +
-        '<option value="4">Stationner</option>' +
-        '<option value="5">Stationner Defendre</option>' +
-        '<option value="6">Espionner</option>' +
-        '<option value="7">Coloniser</option>' +
-        '<option value="8">Recycler</option>' +
-        '<option value="9">Detruire</option>' +
-        '<option value="15">Expedition</option>' +
-        '</select></td></tr>';
-    /*
-    menuAdd += '<tr><td id="name" class="textlabel">Source</td><td id="numberValue" class="textlabel">' +
-        '<select id="sourcePlanete" name="sourcePlanete" form="carform">' +
-        */
-        var coordonatePlanete = $("#planet-*");
-        console.log("++".coordonatePlanete);
-    /*
-        '<option value="1">Attaquer</option>' +
-        '</select></td></tr>';
-        */
-    /*
-    menuAdd += '<tr class="source"><td>Source</td><td>' +
-        '<input type="text" name="galaxy" size="1" value="0"></input>' +
-        '<input type="text" name="system" size="3" value="0"></input>' +
-        '<input type="text" name="planete" size="2" value="0"></input>' +
-        '</td></tr>';
-        */
-    menuAdd += '<tr class="destination"><td>Destination</td><td>' +
-        '<input type="text" name="galaxy" size="1" value="0"></input>' +
-        '<input type="text" name="system" size="3" value="0"></input>' +
-        '<input type="text" name="planete" size="2" value="0"></input>' +
-        '</td></tr>';
-    menuAdd += '<tr><td colspan="2">' +
-        '<table id="cargo">' +
-        '<tr><td id="name" class="resourceIcon metal tooltip"></td><td id="numberValue" class="textlabel"><input name="metal" type="text" value="0"></input></td></tr>' +
-        '<tr><td id="name" class="resourceIcon crystal tooltip"></td><td id="numberValue" class="textlabel"><input name="crystal" type="text" value="0"></input></td></tr>' +
-        '<tr><td id="name" class="resourceIcon deuterium tooltip"></td><td id="numberValue" class="textlabel"><input name="deutrium" type="text" value="0"></input></td></tr>' +
-        '</table>';
-    menuAdd += '</tr></td>';
-    menuAdd += '<tr><td colspan="2">' +
-        '<input style="width:40%; margin: 30px 30%; text-align: center" id="saveSenaio" type="button" value="save">' +
-        '</td></tr>';
-    /* -------------- ------------------- -------------- */
-    menuAdd += '</tr>';
-    menuAdd += '<tr>';
-    menuAdd += '</table>';
-    menuAdd += '</tr>';
-    menuAdd += '<table id="listSave">';
-    senarioAll = GM_getValue("senario");
-    if (senarioAll === undefined)
-        senarioAll = [];
-    console.log(senarioAll.lenght);
-    for (i = 0; i < senarioAll.length; i++) {
-        currentSenario = senarioAll[i];
-        console.log(currentSenario);
-        menuAdd += '<tr>' +
-            '<td>' + currentSenario.name + '</td>' +
-            '<td class="formButton"><button id="viewButton" value="'+ i +'">view</button></td>' +
-            '<td class="formButton"><button id="startButton" value="'+ i +'">start</input></td>' +
-            '<td class="formButton"><button id="removeButton" value="'+ i +'" type="button">remove</button></td>';
-    }
-    menuAdd += '</table>';
-    menuAdd += '</div>';
-    $('#contentWrapper').append(menuAdd);
+    if (window.location.href.indexOf("page=fleet") >= 0) {
+        var target = GM_getValue("target");
+        console.log(target);
+        if (target !== undefined) {
+            time = Math.random() * (3 - 1) + 1;
+            if (target.step === 0) {
+                setTimeout(function(){
+                    target.step = 1;
+                    GM_setValue("target", target);
+                    trySubmit(); return false;
+                }, time);
+            }
+            if (target.step === 1) {
+                setTimeout(function(){
+                    $(".coords input[name=position]").val(target.planete);
+                    setTimeout(function(){
+                        target.step = 2;
+                        GM_setValue("target", target);
+                        trySubmit(); return false;
+                    }, time);
+                }, Math.random() * (2 - 0.5) + 0.5);
+            }
+            if (target.step === 2) {
+                setTimeout(function(){
+                    $("#resources input[name=metal]").val(target.metal);
+                    setTimeout(function(){
+                        $("#resources input[name=crystal]").val(target.crystal);
+                        setTimeout(function(){
+                            $("#resources input[name=deuterium]").val(target.deutrium);
+                            setTimeout(function(){
+                                GM_deleteValue("target");
+                                trySubmit();return false;
+                            }, Math.random() * (2 - 0.5) + 0.5);
+                        }, Math.random() * (2 - 0.5) + 0.5);
+                    }, Math.random() * (2 - 0.5) + 0.5);
+                }, Math.random() * (2 - 0.5) + 0.5);
+            }
+        }
 
-    $(".Ghoster_menu #saveSenaio").click(function() {
+        var menuAdd = '<div class="Ghoster_menu">';
+        menuAdd += '<table id="mainTable">';
+        menuAdd += '<tr><td colspan="2"><h2>Ghoster</h2></td></tr>';
+        menuAdd += '<tr>';
+        /* -------------- Panneau list Vaisseaux -------------- */
+        menuAdd += '<td>';
+        menuAdd += '<table id="listVaiseau">';
+        menuAdd += '<tr><td id="name" class="textlabel">Petit Transporteur</td><td id="numberValue" class="textlabel"><input name="pt" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Grand Transporteur</td><td id="numberValue" class="textlabel"><input name="gt" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">VDC</td><td id="numberValue" class="textlabel"><input name="vdc" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Recycleur</td><td id="numberValue" class="textlabel"><input name="recycleur" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Sonde</td><td id="numberValue" class="textlabel"><input name="sonde" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Chasseur Léger</td><td id="numberValue" class="textlabel"><input name="cl" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Chasseur Lourd</td><td id="numberValue" class="textlabel"><input name="cL" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Croiseur</td><td id="numberValue" class="textlabel"><input name="croiseur" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">VB</td><td id="numberValue" class="textlabel"><input name="vb" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Traqueur</td><td id="numberValue" class="textlabel"><input name="traqueur" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Bombardier</td><td id="numberValue" class="textlabel"><input name="bombardier" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Destructeur</td><td id="numberValue" class="textlabel"><input name="destructeur" type="text" value="0"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">EDLM</td><td id="numberValue" class="textlabel"><input name="edlm" type="text" value="0"></input></td></tr>';
+        menuAdd += '</table>';
+        menuAdd += '</td>';
+        /* -------------- Panneau list Params -------------- */
+        /* -------------- ------------------- -------------- */
+        menuAdd += '<td>';
+        menuAdd += '<table id="listParams">';
+        menuAdd += '<tr><td id="name" class="textlabel">Name</td><td id="nameValue" class="textlabel"><input name="nameMission" type="text"></input></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Mission</td><td id="numberValue" class="textlabel">' +
+            '<select id="typeMission" name="typeMission" form="carform">' +
+            '<option value="1">Attaquer</option>' +
+            '<option value="2">Attaquer Grouper</option>' +
+            '<option value="3">Transporter</option>' +
+            '<option value="4">Stationner</option>' +
+            '<option value="5">Stationner Defendre</option>' +
+            '<option value="6">Espionner</option>' +
+            '<option value="7">Coloniser</option>' +
+            '<option value="8">Recycler</option>' +
+            '<option value="9">Detruire</option>' +
+            '<option value="15">Expedition</option>' +
+            '</select></td></tr>';
+        menuAdd += '<tr><td id="name" class="textlabel">Source</td><td id="numberValue" class="textlabel">' +
+            '<select id="sourcePlanete" name="sourcePlanete" form="carform">';
+        $("#planetList").children().each(function(idx, val){
+            idPlanete = $(this).attr('id').replace("planet-", "");
+            menuAdd += '<option value="' + idPlanete + '">' + $(this).find(".planet-name").html() + ' - ' + $(this).find(".planet-koords").html() + '</option>';
+        });
+        menuAdd += '</select></td></tr>';
+        menuAdd += '<tr class="destination"><td>Destination</td><td>' +
+            '<input type="text" name="galaxy" size="1" value="0"></input>' +
+            '<input type="text" name="system" size="3" value="0"></input>' +
+            '<input type="text" name="planete" size="2" value="0"></input>' +
+            '</td></tr>';
+        menuAdd += '<tr><td colspan="2">' +
+            '<table id="cargo">' +
+            '<tr><td id="name" class="resourceIcon metal tooltip"></td><td id="numberValue" class="textlabel"><input name="metal" type="text" value="0"></input></td></tr>' +
+            '<tr><td id="name" class="resourceIcon crystal tooltip"></td><td id="numberValue" class="textlabel"><input name="crystal" type="text" value="0"></input></td></tr>' +
+            '<tr><td id="name" class="resourceIcon deuterium tooltip"></td><td id="numberValue" class="textlabel"><input name="deutrium" type="text" value="0"></input></td></tr>' +
+            '</table>';
+        menuAdd += '</tr></td>';
+        menuAdd += '<tr><td colspan="2">' +
+            '<input style="width:40%; margin: 30px 30%; text-align: center" id="saveSenaio" type="button" value="save">' +
+            '</td></tr>';
+        menuAdd += '</tr>';
+        menuAdd += '<tr>';
+        menuAdd += '</table>';
+        menuAdd += '</tr>';
+        menuAdd += '<table id="listSave">';
         senarioAll = GM_getValue("senario");
         if (senarioAll === undefined)
             senarioAll = [];
-        var data = {};
-        senario = {};
-        data.pt = $('#listVaiseau input[name=pt]').val();
-        data.gt = $('#listVaiseau input[name=gt]').val();
-        data.vdc = $('#listVaiseau input[name=vdc]').val();
-        data.recycleur = $('#listVaiseau input[name=recycleur]').val();
-        data.sonde = $('#listVaiseau input[name=sonde]').val();
-        data.cl = $('#listVaiseau input[name=cl]').val();
-        data.cL = $('#listVaiseau input[name=cL]').val();
-        data.croiseur = $('#listVaiseau input[name=croiseur]').val();
-        data.vb = $('#listVaiseau input[name=vb]').val();
-        data.traqueur = $('#listVaiseau input[name=traqueur]').val();
-        data.bombardier = $('#listVaiseau input[name=bombardier]').val();
-        data.destructeur = $('#listVaiseau input[name=destructeur]').val();
-        data.edlm = $('#listVaiseau input[name=edlm]').val();
+        for (i = 0; i < senarioAll.length; i++) {
+            currentSenario = senarioAll[i];
+            menuAdd += '<tr>' +
+                '<td>' + currentSenario.name + '</td>' +
+                '<td class="formButton"><button id="viewButton" value="'+ i +'">view</button></td>' +
+                '<td class="formButton"><button id="startButton" value="'+ i +'">start</input></td>' +
+                '<td class="formButton"><button id="removeButton" value="'+ i +'" type="button">remove</button></td>';
+        }
+        menuAdd += '</table>';
+        menuAdd += '</div>';
+        /* -------------- Alert Win Save      -------------- */
+        /* -------------- ------------------- -------------- */
+        menuAdd += '<div id="fadeBox" class="fadeBox saveWinGhoster" style="display: none;">' +
+            '<div>' +
+            '<span id="fadeBoxStyle" class="success"></span>' +
+            '<p id="fadeBoxContent">Scénarios enregistrer</p>' +
+            '</div>' +
+            '</div>';
+        /* -------------- Alert Win Delete    -------------- */
+        /* -------------- ------------------- -------------- */
+        menuAdd += '<div id="fadeBox" class="fadeBox deleteWinGhoster" style="display: none;">' +
+            '<div>' +
+            '<span id="fadeBoxStyle" class="failed"></span>' +
+            '<p id="fadeBoxContent">Scénarios Supprimer</p>' +
+            '</div>' +
+            '</div>';
+        $('#contentWrapper').append(menuAdd);
 
-        data.metal = $('#listParams input[name=metal]').val();
-        data.crystal = $('#listParams input[name=crystal]').val();
-        data.deutrium = $('#listParams input[name=deutrium]').val();
+        $(".Ghoster_menu #saveSenaio").click(function() {
+            senarioAll = GM_getValue("senario");
+            if (senarioAll === undefined)
+                senarioAll = [];
+            var data = {};
+            senario = {};
+            data.pt = $('#listVaiseau input[name=pt]').val();
+            data.gt = $('#listVaiseau input[name=gt]').val();
+            data.vdc = $('#listVaiseau input[name=vdc]').val();
+            data.recycleur = $('#listVaiseau input[name=recycleur]').val();
+            data.sonde = $('#listVaiseau input[name=sonde]').val();
+            data.cl = $('#listVaiseau input[name=cl]').val();
+            data.cL = $('#listVaiseau input[name=cL]').val();
+            data.croiseur = $('#listVaiseau input[name=croiseur]').val();
+            data.vb = $('#listVaiseau input[name=vb]').val();
+            data.traqueur = $('#listVaiseau input[name=traqueur]').val();
+            data.bombardier = $('#listVaiseau input[name=bombardier]').val();
+            data.destructeur = $('#listVaiseau input[name=destructeur]').val();
+            data.edlm = $('#listVaiseau input[name=edlm]').val();
 
-        data.mission = $('#listParams #typeMission').val();
+            data.metal = $('#listParams input[name=metal]').val();
+            data.crystal = $('#listParams input[name=crystal]').val();
+            data.deutrium = $('#listParams input[name=deutrium]').val();
 
-        data.source = $('#listParams .source input[name=galaxy]').val() + ":" + $('#listParams .source input[name=system]').val() + ":" + $('#listParams .source input[name=planete]').val();
-        data.destination = $('#listParams .destination input[name=galaxy]').val() + ":" + $('#listParams .destination input[name=system]').val() + ":" + $('#listParams .destination input[name=planete]').val();
+            data.mission = $('#listParams #typeMission').val();
 
-        senario.name = $('#listParams input[name=nameMission]').val();
+            data.source = $('#listParams #sourcePlanete').val();
+            data.destination = $('#listParams .destination input[name=galaxy]').val() + ":" + $('#listParams .destination input[name=system]').val() + ":" + $('#listParams .destination input[name=planete]').val();
 
-        senario.data = data;
-        console.log(senarioAll);
-        senarioAll.push(senario);
+            senario.name = $('#listParams input[name=nameMission]').val();
 
-        GM_setValue("senario", senarioAll);
-    });
+            senario.data = data;
+            console.log(senarioAll);
+            senarioAll.push(senario);
 
-    $(".Ghoster_menu #removeButton").click(function() {
-        senarioAll = GM_getValue("senario");
-        senarioAll.splice($(this).val(), 1);
-        senarioAll = GM_setValue("senario", senarioAll);
-    });
+            GM_setValue("senario", senarioAll);
 
-    $(".Ghoster_menu #viewButton").click(function() {
-        senarioAll = GM_getValue("senario");
-        senario = senarioAll[$(this).val()];
-        $('#listVaiseau input[name=pt]').val(senario.data.pt);
-        $('#listVaiseau input[name=gt]').val(senario.data.gt);
-        $('#listVaiseau input[name=vdc]').val(senario.data.vdc);
-        $('#listVaiseau input[name=recycleur]').val(senario.data.recycleur);
-        $('#listVaiseau input[name=sonde]').val(senario.data.sonde);
-        $('#listVaiseau input[name=cl]').val(senario.data.cl);
-        $('#listVaiseau input[name=cL]').val(senario.data.cL);
-        $('#listVaiseau input[name=croiseur]').val(senario.data.croiseur);
-        $('#listVaiseau input[name=vb]').val(senario.data.vb);
-        $('#listVaiseau input[name=traqueur]').val(senario.data.traqueur);
-        $('#listVaiseau input[name=bombardier]').val(senario.data.bombardier);
-        $('#listVaiseau input[name=destructeur]').val(senario.data.destructeur);
-        $('#listVaiseau input[name=edlm]').val(senario.data.edlm);
+            $(".saveWinGhoster").css({"display": "block", "opacity": "1"});
+            $(".saveWinGhoster").animate({
+                opacity: 0
+            }, 3000, function() {
+                $(".saveWinGhoster").css({"display": "block"});
+            });
+        });
 
-        $('#listParams input[name=metal]').val(senario.data.metal);
-        $('#listParams input[name=crystal]').val(senario.data.crystal);
-        $('#listParams input[name=deutrium]').val(senario.data.deutrium);
+        $(".Ghoster_menu #removeButton").click(function() {
+            senarioAll = GM_getValue("senario");
+            senarioAll.splice($(this).val(), 1);
+            senarioAll = GM_setValue("senario", senarioAll);
 
-        var source = senario.data.source.split(":");
-        var destination = senario.data.destination.split(":");
+            $(".deleteWinGhoster").css({"display": "block", "opacity": "1"});
+            $(".deleteWinGhoster").animate({
+                opacity: 0
+            }, 3000, function() {
+                $(".deleteWinGhoster").css({"display": "block"});
+            });
+        });
 
-        $('#listParams #typeMission').val(senario.data.mission);
+        $(".Ghoster_menu #viewButton").click(function() {
+            senarioAll = GM_getValue("senario");
+            senario = senarioAll[$(this).val()];
+            console.log(senario);
+            $('#listVaiseau input[name=pt]').val(senario.data.pt);
+            $('#listVaiseau input[name=gt]').val(senario.data.gt);
+            $('#listVaiseau input[name=vdc]').val(senario.data.vdc);
+            $('#listVaiseau input[name=recycleur]').val(senario.data.recycleur);
+            $('#listVaiseau input[name=sonde]').val(senario.data.sonde);
+            $('#listVaiseau input[name=cl]').val(senario.data.cl);
+            $('#listVaiseau input[name=cL]').val(senario.data.cL);
+            $('#listVaiseau input[name=croiseur]').val(senario.data.croiseur);
+            $('#listVaiseau input[name=vb]').val(senario.data.vb);
+            $('#listVaiseau input[name=traqueur]').val(senario.data.traqueur);
+            $('#listVaiseau input[name=bombardier]').val(senario.data.bombardier);
+            $('#listVaiseau input[name=destructeur]').val(senario.data.destructeur);
+            $('#listVaiseau input[name=edlm]').val(senario.data.edlm);
 
-        $('#listParams .source input[name=galaxy]').val(source[0]);
-        $('#listParams .source input[name=system]').val(source[1]);
-        $('#listParams .source input[name=planete]').val(source[2]);
+            $('#listParams input[name=metal]').val(senario.data.metal);
+            $('#listParams input[name=crystal]').val(senario.data.crystal);
+            $('#listParams input[name=deutrium]').val(senario.data.deutrium);
 
-        $('#listParams .destination input[name=galaxy]').val(destination[0]);
-        $('#listParams .destination input[name=system]').val(destination[1]);
-        $('#listParams .destination input[name=planete]').val(destination[2]);
+            var destination = senario.data.destination.split(":");
 
-        $('#listParams input[name=nameMission]').val(senario.name);
-    });
+            $('#listParams #typeMission').val(senario.data.mission);
+            $('#listParams #sourcePlanete').val(senario.data.source);
 
-    $(".Ghoster_menu #startButton").click(function() {
-        senarioAll = GM_getValue("senario");
-        senario = senarioAll[$(this).val()];
-        data = senario.data;
+            $('#listParams .destination input[name=galaxy]').val(destination[0]);
+            $('#listParams .destination input[name=system]').val(destination[1]);
+            $('#listParams .destination input[name=planete]').val(destination[2]);
 
-        var source = data.source.split(":");
-        var destination = data.destination.split(":");
+            $('#listParams input[name=nameMission]').val(senario.name);
+        });
 
-        var url = "http://" + window.location.hostname + "/game/index.php/?page=fleet1&";
-        url += "galaxy=" + destination[0] + "&" +
-            "system=" + destination[1] + "&" +
-            "planete=" + destination[2] + "&";
-        url += "type=" + "1" + "&";
-        url += "mission=" + data.mission + "&";
-        url += "am202=" + data.pt;
-        console.log(url);
-    });
-/*
+        $(".Ghoster_menu #startButton").click(function() {
+            senarioAll = GM_getValue("senario");
+            senario = senarioAll[$(this).val()];
+            data = senario.data;
+
+            var destination = data.destination.split(":");
+
+            var url = "http://" + window.location.hostname + "/game/index.php/?page=fleet1&";
+            url += "galaxy=" + destination[0] + "&" +
+                "system=" + destination[1] + "&" +
+                "planete=" + destination[2] + "&";
+            url += "type=" + "1" + "&";
+            url += "mission=" + data.mission + "&";
+            url += "am202=" + data.pt + "&" +
+                "am203=" + data.gt + "&" +
+                "am208=" + data.vdc + "&" +
+                "am209=" + data.recycleur + "&" +
+                "am210=" + data.sonde + "&" +
+                "am204=" + data.cl + "&" +
+                "am205=" + data.cL + "&" +
+                "am206=" + data.croiseur + "&" +
+                "am207=" + data.vb + "&" +
+                "am215=" + data.traqueur + "&" +
+                "am211=" + data.bombardier + "&" +
+                "am213=" + data.destructeur + "&" +
+                "am214=" + data.edlm + "&";
+            url += "cp=" + data.source;
+
+            var target = {};
+            target.link = url;
+            target.metal = data.metal;
+            target.crystal = data.crystal;
+            target.deutrium = data.deutrium;
+            target.planete = destination[2];
+            target.step = 0;
+
+            GM_setValue("target", target);
+            window.location.replace(url);
+        });
+        /*
     $("#saveSendRemove").click(function() {
         GM_setValue("metal_save", 0);
         GM_setValue("crystal_save", 0);
@@ -318,4 +392,5 @@ GM_addStyle(
         var deuterium = $('#deuterium').val(GM_getValue("deuterium_save"));
     });
 */
+    }
 })();
