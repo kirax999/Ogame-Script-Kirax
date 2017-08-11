@@ -182,7 +182,6 @@ function ghosterOgame () {
             setTimeout(function(){
                 var str = "[data-value='" + target.speed + "']";
                 simulateMouseClick($("#speedLinks").find("[data-value='" + target.speed + "']"));
-                alert(str);
                 $(".coords input[name=position]").val(target.planete);
                 setTimeout(function(){
                     target.step = 2;
@@ -582,7 +581,6 @@ function paramsMenuKscript () {
 }
 
 function resetParams () {
-    alert("reset");
     var data = {};
     data.ghoster = "true";
     data.savesend = "true";
