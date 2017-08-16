@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name       KScript
 // @namespace  http://richet.me/
-// @version    1.0
+// @version    1.2
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
 // @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
-// @updateURL 	https://github.com/kirax999/Ogame-Script-Kirax/raw/master/KScript.user.js
+// @updateURL http://www.tipsvoorbesparen.nl/1.meta.js
 // @require http://code.jquery.com/jquery-latest.js
 
 // @grant    GM_getValue
@@ -140,7 +140,15 @@ $(document).ready(function() {
         paramsMenuKscript();
     }, true);
 
-    //alert("ghoster:" + paramsKS.ghoster + paramsKS.ghoster.indexOf("true") + " - " + "savesend:" + paramsKS.savesend + paramsKS.savesend.indexOf("true"));
+    $("#ago_panel_Account .ago_panel_tab").click(function() {
+        setTimeout(function(){
+            refreshAntiGame();
+        }, 0);
+    });
+
+    if (paramsKS.refreshantigame == "true") {
+        refreshAntiGame();
+    }
 
     if (window.location.href.indexOf("page=fleet") >= 0) {
         if (paramsKS.ghoster.indexOf("true") >= 0)
@@ -148,25 +156,29 @@ $(document).ready(function() {
         if (paramsKS.savesend.indexOf("true") >= 0)
             saveSend();
     }
+
+    if (GM_getValue("refreshAntiGame") !== undefined) {
+        refreshAntiGamePlay();
+    }
+
+    /*
+    if ($(".ago_panel_wrapper") !== undefined) {
+        var ghoster = '<div id="ago_panel_KScript">';
+        ghoster += '<div class="ago_panel_tab" ago-data="{"update":{"tab":"Target","status":"toggle"}}">';
+        ghoster += 'Ghoster<span class="ago_panel_tab_info"></span>';
+        ghoster += '</div>';
+        ghoster += '<div class="ago_panel_tab_content">';
+        ghoster += '<br><br><br>'
+        ghoster += '</div>';
+        ghoster += '</div>';
+        $(ghoster).insertAfter("#ago_panel_Target");
+    }
+    */
 });
 
 function ghosterOgame () {
     paramsKS = GM_getValue("paramsKS");
 
-    var getUrlParameter = function getUrlParameter(sParam, url) {
-        var sPageURL = decodeURIComponent(url.split('?')[1]),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
-
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    };
     var target = GM_getValue("target");
     console.log(target);
     if (target !== undefined) {
@@ -256,9 +268,12 @@ function ghosterOgame () {
         menuAdd += '<option value="' + idPlanete + '">' + $(this).find(".planet-name").html() + ' - ' + $(this).find(".planet-koords").html() + '</option>';
         //------------------------//
         child = $(this).find(".moonlink");
-        data = getUrlParameter('cp', child.attr("href"));
-        nameMoon = child.find(".icon-moon").attr("alt");
-        menuAdd += '<option value="' + data + '">' + nameMoon + ' - ' + $(this).find(".planet-koords").html() + '</option>';
+        console.log(child.length);
+        if (child.length > 0) {
+            data = getUrlParameter('cp', child.attr("href"));
+            nameMoon = child.find(".icon-moon").attr("alt");
+            menuAdd += '<option value="' + data + '">' + nameMoon + ' - ' + $(this).find(".planet-koords").html() + '</option>';
+        }
         //------------------------//
     });
     menuAdd += '</select></td></tr>';
@@ -516,13 +531,103 @@ function saveSend () {
     });
 }
 
+function refreshAntiGame () {
+    paramsKS = GM_getValue("paramsKS");
+
+    if ((paramsKS.refreshantigame == "true") && ($(".ago_panel_wrapper").length > 0)) {
+        var menu = '<br><ul class="ago_panel_content">';
+        menu += '<li class="ago_panel_content_header">Refresh data</li>';
+        menu += '<br><li style="height:30px">';
+        menu += '<input type="submit" class="btn_blue" value="Planete" id="KAGPlanete" style="width:30%; margin:0 1.5%">';
+        menu += '<input type="submit" class="btn_blue" value="Moon" id="KAGMoon" style="width:30%; margin:0 1.5%">';
+        menu += '<input type="submit" class="btn_blue" value="All" id="KAGAll" style="width:30%; margin:0 1.5%">';
+        menu += '</li>';
+        menu += '</ul>';
+
+        $("#ago_panel_Account .ago_panel_tab_content .ago_panel_content:last-child").append(menu);
+
+        $("#ago_panel_Account .ago_panel_tab_content .ago_panel_content:last-child #KAGPlanete").click(function() {
+            // listPlanet Search
+            GM_deleteValue("refreshAntiGame");
+            var refresh = {};
+            var listPosition = [];
+            $("#planetList").children().each(function(idx, val){
+                idPlanete = $(this).attr('id').replace("planet-", "");
+                listPosition.push(idPlanete);
+            });
+            refresh.status = 0;
+            refresh.position = listPosition;
+            GM_setValue("refreshAntiGame", refresh);
+            window.location.replace(window.location);
+        });
+
+        $("#ago_panel_Account .ago_panel_tab_content .ago_panel_content:last-child #KAGMoon").click(function() {
+            // listMoon Search
+            GM_deleteValue("refreshAntiGame");
+            var refresh = {};
+            var listPosition = [];
+            $("#planetList").children().each(function(idx, val){
+                idPlanete = $(this).attr('id').replace("planet-", "");
+                child = $(this).find(".moonlink");
+                if (child.length > 0) {
+                    position = getUrlParameter('cp', child.attr("href"));
+                }
+                if (position !== undefined)
+                    listPosition.push(position);
+            });
+            refresh.status = 0;
+            refresh.position = listPosition;
+            console.log(listPosition);
+            GM_setValue("refreshAntiGame", refresh);
+            window.location.replace(window.location);
+        });
+
+        $("#ago_panel_Account .ago_panel_tab_content .ago_panel_content:last-child #KAGAll").click(function() {
+            GM_deleteValue("refreshAntiGame");
+            var refresh = {};
+            var listPosition = [];
+            $("#planetList").children().each(function(idx, val){
+                idPlanete = $(this).attr('id').replace("planet-", "");
+                child = $(this).find(".moonlink");
+                if (child.length > 0) {
+                    position = getUrlParameter('cp', child.attr("href"));
+                }
+                listPosition.push(idPlanete);
+                if (position !== undefined)
+                    listPosition.push(position);
+            });
+            refresh.status = 0;
+            refresh.position = listPosition;
+            console.log(listPosition);
+            GM_setValue("refreshAntiGame", refresh);
+            window.location.replace(window.location);
+        });
+    }
+}
+
+function refreshAntiGamePlay () {
+    data = GM_getValue("refreshAntiGame");
+
+    //console.log(data);
+    if (data.status < data.position.length) {
+        var url = "http://" + window.location.hostname + "/game/index.php/?page=overview&";
+        url += "cp=" + data.position[data.status];
+        data.status += 1;
+        GM_setValue("refreshAntiGame", data);
+        console.log(data.position);
+        if (status == data.position.length)
+            GM_deleteValue("refreshAntiGame");
+        window.location.replace(url);
+    }
+}
+
 function paramsMenuKscript () {
     var winParam = '<div id="buttonz">';
     winParam += '<div class="header">';
     winParam += '<h2>KScript</h2>';
     winParam += '</div>';
     winParam += '<div class="content">';
-    winParam += '<div class="textCenter" style="height: 200px;">';
+    winParam += '<div class="textCenter" style="height: 250px;">';
 
     winParam += '<div class="fieldwrapper">';
     winParam += '<label class="styled textBeefy">SaveSend</label>';
@@ -537,6 +642,11 @@ function paramsMenuKscript () {
     winParam += '<div class="fieldwrapper">';
     winParam += '<label class="styled textBeefy">Ghoster input text background color</label>';
     winParam += '<div class="thefield"><input id="GhosterBackgrondColor" class="InfoOptions" type="text" size="7" value=""></div>';
+    winParam += '</div>';
+
+    winParam += '<div class="fieldwrapper">';
+    winParam += '<label class="styled textBeefy">Refresh AntiGame</label>';
+    winParam += '<div class="thefield"><input style="cursor:pointer;" id="activateRefreshAG" class="InfoOptions" checked="" alt="28" type="checkbox"></div>';
     winParam += '</div>';
 
     winParam += '<input type="submit" class="btn_blue" value="Save Params" id="KSparamsSave">';
@@ -559,6 +669,11 @@ function paramsMenuKscript () {
     else
         $('#activateGhoster').prop('checked', false);
 
+    if (paramsKS.ghoster.indexOf("true") >= 0)
+        $('#activateRefreshAG').prop('checked', true);
+    else
+        $('#activateRefreshAG').prop('checked', false);
+
     $("#GhosterBackgrondColor").val(paramsKS.ghosterInputBackgroundColor);
 
     $("#KSparamsSave").click(function() {
@@ -572,6 +687,12 @@ function paramsMenuKscript () {
             data.ghoster = "true";
         else
             data.ghoster = "false";
+
+        if ($('#activateRefreshAG').is(':checked'))
+            data.refreshantigame = "true";
+        else
+            data.refreshantigame = "false";
+
         GM_setValue("paramsKS", data);
     });
 
@@ -584,13 +705,13 @@ function resetParams () {
     var data = {};
     data.ghoster = "true";
     data.savesend = "true";
+    data.refreshantigame = "true";
     data.ghosterInputBackgroundColor = "#B3C3CB";
     GM_setValue("paramsKS", data);
     paramsMenuKscript();
 }
 
-function simulateMouseClick(selector)
-{
+function simulateMouseClick(selector) {
     function eventFire (el, etype)
     {
         if (el.fireEvent)
@@ -608,3 +729,18 @@ function simulateMouseClick(selector)
     for (var i = 0; i < selector.length; i++)
         eventFire (selector [i], "click");
 }
+
+var getUrlParameter = function getUrlParameter(sParam, url) {
+    var sPageURL = decodeURIComponent(url.split('?')[1]),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
