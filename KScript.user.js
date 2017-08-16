@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name       KScript
 // @namespace  http://richet.me/
-// @version    1.2
+// @version    1.3
 // @description  Script Ogame for make a scenario mission spatiale
 // @match      *.ogame*
 // @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
-// @updateURL http://www.tipsvoorbesparen.nl/1.meta.js
+// @updateURL https://github.com/kirax999/Ogame-Script-Kirax/raw/master/KScript.user.js
 // @require http://code.jquery.com/jquery-latest.js
 
 // @grant    GM_getValue
