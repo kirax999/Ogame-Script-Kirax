@@ -551,6 +551,11 @@ function refreshAntiGame () {
             GM_deleteValue("refreshAntiGame");
             var refresh = {};
             var listPosition = [];
+
+            if (String(window.location).indexOf("page") > 0) {
+                refresh.page = getUrlParameter("page", String(window.location));
+            }
+
             $("#planetList").children().each(function(idx, val){
                 idPlanete = $(this).attr('id').replace("planet-", "");
                 listPosition.push(idPlanete);
@@ -566,6 +571,11 @@ function refreshAntiGame () {
             GM_deleteValue("refreshAntiGame");
             var refresh = {};
             var listPosition = [];
+
+            if (String(window.location).indexOf("page") > 0) {
+                refresh.page = getUrlParameter("page", String(window.location));
+            }
+
             $("#planetList").children().each(function(idx, val){
                 idPlanete = $(this).attr('id').replace("planet-", "");
                 child = $(this).find(".moonlink");
@@ -583,9 +593,14 @@ function refreshAntiGame () {
         });
 
         $("#ago_panel_Account .ago_panel_tab_content .ago_panel_content:last-child #KAGAll").click(function() {
-            GM_deleteValue("refreshAntiGame");
             var refresh = {};
             var listPosition = [];
+            GM_deleteValue("refreshAntiGame");
+
+            if (String(window.location).indexOf("page") > 0) {
+                refresh.page = getUrlParameter("page", String(window.location));
+            }
+
             $("#planetList").children().each(function(idx, val){
                 idPlanete = $(this).attr('id').replace("planet-", "");
                 child = $(this).find(".moonlink");
@@ -611,7 +626,9 @@ function refreshAntiGamePlay () {
     //console.log(data);
     if (data.status < data.position.length) {
         var url = "http://" + window.location.hostname + "/game/index.php/?page=overview&";
-        url += "cp=" + data.position[data.status];
+        url += "cp=" + data.position[data.status] + "&";
+        if (data.page !== undefined)
+            url += "page=" + data.page;
         data.status += 1;
         GM_setValue("refreshAntiGame", data);
         console.log(data.position);
@@ -627,7 +644,7 @@ function paramsMenuKscript () {
     winParam += '<h2>KScript</h2>';
     winParam += '</div>';
     winParam += '<div class="content">';
-    winParam += '<div class="textCenter" style="height: 250px;">';
+    winParam += '<div class="textCenter" style="height: 285px;">';
 
     winParam += '<div class="fieldwrapper">';
     winParam += '<label class="styled textBeefy">SaveSend</label>';
@@ -650,7 +667,14 @@ function paramsMenuKscript () {
     winParam += '</div>';
 
     winParam += '<input type="submit" class="btn_blue" value="Save Params" id="KSparamsSave">';
-    winParam += '    <input type="submit" class="btn_blue" value="Reset Params" id="KSparamsReset">';
+    winParam += '<input type="submit" class="btn_blue" value="Reset Params" id="KSparamsReset">';
+
+    winParam += '<div style="padding: 20px 0;">';
+    winParam += '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"><input type="hidden" name="cmd" value="_s-xclick"><input type="hidden" name="hosted_button_id" value="CTWN8HCRL8YMJ">';
+    winParam += '<input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">';
+    winParam += '<img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1"></form>';
+    winParam += '</div>';
+
     winParam += '</div>';
     winParam += '<div class="footer"></div>';
     winParam += '</div>';
