@@ -3,7 +3,6 @@
 // @namespace  http://richet.me/
 // @version    1.4
 // @description  Script Ogame for make a scenario mission spatiale
-// @match      *.ogame*
 // @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
 // @updateURL https://github.com/kirax999/Ogame-Script-Kirax/raw/master/KScript.user.js
