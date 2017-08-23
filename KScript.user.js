@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       KScript
 // @namespace  http://richet.me/
-// @version    1.4
+// @version    1.5
 // @description  Script Ogame for make a scenario mission spatiale
 // @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
