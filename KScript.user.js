@@ -13,46 +13,48 @@
 // @grant    GM_addStyle
 // @grant    GM_deleteValue
 // @grant    GM_xmlhttpRequest
+// @grant          GM_xmlhttpRequest
+// @connect        timelaps.fr
 // ==/UserScript==
 
 /*
-******************
-* info url Ogame *
-******************
+ ******************
+ * info url Ogame *
+ ******************
 
-/game/index.php?page=fleet1&galaxy=2&system=41&position=6&type=1&routine=3&am202=10
+ /game/index.php?page=fleet1&galaxy=2&system=41&position=6&type=1&routine=3&am202=10
 
-/game/index.php?positio=fleet1&
-params:
-galaxy = 1 a 9
-system = 1 a 499
-position = 1 a 16
-type = 1 a 3 (1 planete, 2 champs de débris, 3 lunes)
-mission = 1 a 9 + 15
-            1 Attaquer
-            2 Attaque groupe
-            3 Transporter
-            4 Stationner
-            5 Stationner defendre
-            6 Espionner
-            7 Coloniser
-            8 Recycler
-            9 Detruire
-            15 Expedition
-am202 = number vaisseaux -> petit transporteur
-am203 = number vaisseaux -> grand transporteur
-am208 = number vaisseaux -> colonisation
-am209 = number vaisseaux -> recycleur
-am210 = number vaisseaux -> sonde espionage
-am204 = number vaisseaux -> chasseur léger
-am205 = number vaisseaux -> chasseur lourd
-am206 = number vaisseaux -> croiseur
-am207 = number vaisseaux -> vaisseaux de bataille
-am215 = number vaisseaux -> Traqueur
-am211 = number vaisseaux -> Bombardier
-am213 = number vaisseaux -> Destructeur
-am214 = number vaisseaux -> Etoile de la mort
-*/
+ /game/index.php?positio=fleet1&
+ params:
+ galaxy = 1 a 9
+ system = 1 a 499
+ position = 1 a 16
+ type = 1 a 3 (1 planete, 2 champs de débris, 3 lunes)
+ mission = 1 a 9 + 15
+ 1 Attaquer
+ 2 Attaque groupe
+ 3 Transporter
+ 4 Stationner
+ 5 Stationner defendre
+ 6 Espionner
+ 7 Coloniser
+ 8 Recycler
+ 9 Detruire
+ 15 Expedition
+ am202 = number vaisseaux -> petit transporteur
+ am203 = number vaisseaux -> grand transporteur
+ am208 = number vaisseaux -> colonisation
+ am209 = number vaisseaux -> recycleur
+ am210 = number vaisseaux -> sonde espionage
+ am204 = number vaisseaux -> chasseur léger
+ am205 = number vaisseaux -> chasseur lourd
+ am206 = number vaisseaux -> croiseur
+ am207 = number vaisseaux -> vaisseaux de bataille
+ am215 = number vaisseaux -> Traqueur
+ am211 = number vaisseaux -> Bombardier
+ am213 = number vaisseaux -> Destructeur
+ am214 = number vaisseaux -> Etoile de la mort
+ */
 
 // ==/UserScript==
 GM_addStyle(
@@ -161,18 +163,18 @@ $(document).ready(function() {
     }
 
     /*
-    if ($(".ago_panel_wrapper") !== undefined) {
-        var ghoster = '<div id="ago_panel_KScript">';
-        ghoster += '<div class="ago_panel_tab" ago-data="{"update":{"tab":"Target","status":"toggle"}}">';
-        ghoster += 'Ghoster<span class="ago_panel_tab_info"></span>';
-        ghoster += '</div>';
-        ghoster += '<div class="ago_panel_tab_content">';
-        ghoster += '<br><br><br>'
-        ghoster += '</div>';
-        ghoster += '</div>';
-        $(ghoster).insertAfter("#ago_panel_Target");
-    }
-    */
+     if ($(".ago_panel_wrapper") !== undefined) {
+     var ghoster = '<div id="ago_panel_KScript">';
+     ghoster += '<div class="ago_panel_tab" ago-data="{"update":{"tab":"Target","status":"toggle"}}">';
+     ghoster += 'Ghoster<span class="ago_panel_tab_info"></span>';
+     ghoster += '</div>';
+     ghoster += '<div class="ago_panel_tab_content">';
+     ghoster += '<br><br><br>'
+     ghoster += '</div>';
+     ghoster += '</div>';
+     $(ghoster).insertAfter("#ago_panel_Target");
+     }
+     */
 });
 
 function ghosterOgame () {
@@ -453,8 +455,8 @@ function ghosterOgame () {
 
     $(".Ghoster_menu #startButton").click(function() {
         /*
-        function resetSpeedToSelected(){if(currentPage=="fleet2"){$("#speed").val($("#speedLinks>a.selected").attr("data-value"));updateVariables()}}
-        */
+         function resetSpeedToSelected(){if(currentPage=="fleet2"){$("#speed").val($("#speedLinks>a.selected").attr("data-value"));updateVariables()}}
+         */
         senarioAll = GM_getValue("senario");
         senario = senarioAll[$(this).val()];
         data = senario.data;
