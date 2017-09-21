@@ -13,8 +13,8 @@
 // @grant    GM_addStyle
 // @grant    GM_deleteValue
 // @grant    GM_xmlhttpRequest
-// @grant          GM_xmlhttpRequest
-// @connect        timelaps.fr
+// @grant    GM_xmlhttpRequest
+// @connect  timelaps.fr
 // ==/UserScript==
 
 /*
@@ -168,21 +168,6 @@ $(document).ready(function() {
     if (GM_getValue("refreshAntiGame") !== undefined) {
         refreshAntiGamePlay();
     }
-
-    /*
-     if ($(".ago_panel_wrapper") !== undefined) {
-     var ghoster = '<div id="ago_panel_KScript">';
-     ghoster += '<div class="ago_panel_tab" ago-data="{"update":{"tab":"Target","status":"toggle"}}">';
-     ghoster += 'Ghoster<span class="ago_panel_tab_info"></span>';
-     ghoster += '</div>';
-     ghoster += '<div class="ago_panel_tab_content">';
-     ghoster += '<br><br><br>'
-     ghoster += '</div>';
-     ghoster += '</div>';
-     $(ghoster).insertAfter("#ago_panel_Target");
-     }
-     */
-
 });
 
 function ghosterOgame () {
@@ -632,7 +617,6 @@ function refreshAntiGame () {
 function refreshAntiGamePlay () {
     data = GM_getValue("refreshAntiGame");
 
-    //console.log(data);
     if (data.status < data.position.length) {
         var url = "http://" + window.location.hostname + "/game/index.php/?page=overview&";
         url += "cp=" + data.position[data.status] + "&";
@@ -735,16 +719,12 @@ function paramsMenuKscript () {
 }
 
 function copyFleetMovement() {
-    //alert($("#eventContent").html());
     setTimeout(function(){
         if($('#eventboxContent').css('display') == 'none') {
             simulateMouseClick($("#eventboxFilled"));
         }
         var data = [];
         $("#eventContent tbody").children().each(function(idx, val){
-            //idPlanete = $(this).attr('id').replace("planet-", "");
-            //menuAdd += '<option value="' + idPlanete + '">' + $(this).find(".planet-name").html() + ' - ' + $(this).find(".planet-koords").html() + '</option>';
-            //------------------------//
             if (String($(this).attr("class")).includes("eventFleet")) {
                 console.log($(this).attr("class"));
                 var senario = {};
@@ -753,53 +733,23 @@ function copyFleetMovement() {
                 senario.sizeFleet = $(this).children(".detailsFleet").text().trim();
                 senario.destFleet = $(this).children(".destFleet").text().trim();
                 senario.destCoords = $(this).children(".destCoords").text().trim();
-                //console.log($(allFleet).find(".originFleet").text());
                 data.push(senario);
             }
-            //------------------------//
         });
-        console.log(data);
-
-        //console.log(data);
-        /*
-        allFleet = $("#eventContent").find(".eventFleet");
-        if (allFleet.length > 0) {
-            for (var i = 0; i < allFleet.length; i++) {
-                debug.log(allFleet[i]);
-                var senario = {};
-                senario.timeStamp = allFleet[i].attr("data-arrival-time");
-                senario.originFleet = allFleet[i].clidren().find(".originFleet").text();
-                senario.sizeFleet = "";
-                senario.destFleet = "";
-                senario.destCoords = "";
-                //console.log($(allFleet).find(".originFleet").text());
-                data.push(senario);
+        var myJsonString = JSON.stringify(data);
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://timelaps.fr/Ogame/generateQrCode.php",
+            data: "data=" + encodeURIComponent(myJsonString),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            onload: function(response) {
+                $("#buttonz").html(response.responseText);
+                console.log(response.responseText);
             }
-            debug.log(data);
-            */
-        /*
-            data = getUrlParameter('cp', child.attr("href"));
-            nameMoon = child.find(".icon-moon").attr("alt");
-            menuAdd += '<option value="' + data + '">' + nameMoon + ' - ' + $(this).find(".planet-koords").html() + '</option>';
-            */
-        //}
+        });
     }, 250);
-    /*
-    $("#eventContent").children().each(function(idx, val){
-        //idPlanete = $(this).attr('id').replace("planet-", "");
-        //menuAdd += '<option value="' + idPlanete + '">' + $(this).find(".planet-name").html() + ' - ' + $(this).find(".planet-koords").html() + '</option>';
-        //------------------------//
-        child = $(this).find("tr.eventFleet");
-        console.log(child.length);
-        if (child.length > 0) {
-            data = getUrlParameter('cp', child.attr("href"));
-            nameMoon = child.find(".icon-moon").attr("alt");
-            menuAdd += '<option value="' + data + '">' + nameMoon + ' - ' + $(this).find(".planet-koords").html() + '</option>';
-
-        }
-        //------------------------//
-    });
-    */
 }
 
 function resetParams () {
