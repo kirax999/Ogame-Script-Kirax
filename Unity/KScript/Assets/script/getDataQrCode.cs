@@ -13,30 +13,19 @@ using SimpleJSON;
 public class getDataQrCode : MonoBehaviour {
 	private WebCamTexture camTexture;
 	public Quaternion baseRotation;
-	private Rect screenRect;
 	private GameObject CameraCapture;
+	public List<fleetEvent> listFleet = new List<fleetEvent>();
 
 	void Start() {
 		baseRotation = transform.rotation;
-
-		WebCamDevice[] devices = WebCamTexture.devices;
-		for (int i = 0; i < devices.Length; i++)
-			Debug.Log(devices[i].name);
-
 		CameraCapture = GameObject.Find("CameraCapture");
-		screenRect = new Rect(0, 0, Screen.width, Screen.height);
 		camTexture = new WebCamTexture();
-		Debug.Log(camTexture.videoRotationAngle + "degrer");
 
-		camTexture.requestedHeight = (int)CameraCapture.GetComponent<RectTransform>().rect.height; 
-		camTexture.requestedWidth = (int)CameraCapture.GetComponent<RectTransform>().rect.width;
+		//camTexture.requestedHeight = (int)CameraCapture.GetComponent<RectTransform>().rect.height; 
+		//camTexture.requestedWidth = (int)CameraCapture.GetComponent<RectTransform>().rect.width;
 	}
 
-	void OnGUI () {
-		//if (clicked)
-			//GUI.DrawTexture (screenRect, camTexture, ScaleMode.ScaleToFit);
-	}
-		
+	#region camera QrCode Working
 	public void openCamera() {
 		GameObject.Find("CanvasGetPicture").GetComponent<Canvas>().enabled = true;
 		CameraCapture.GetComponent<RawImage>().texture = camTexture;
@@ -62,11 +51,13 @@ public class getDataQrCode : MonoBehaviour {
 			Debug.Log(ex.Message);
 		}
 	}
+	#endregion
 	
 	void Update () {
 		CameraCapture.transform.rotation = baseRotation * Quaternion.AngleAxis(camTexture.videoRotationAngle, Vector3.back);
 	}
 
+	#region network data send and receve
 	public WWW POST(string url, Dictionary<string, string> post)
 	{
 		WWWForm form = new WWWForm();
@@ -87,43 +78,29 @@ public class getDataQrCode : MonoBehaviour {
 		// check for errors
 		if (www.error == "")
 		{
-			Debug.Log("WWW Ok!: " + www.text);
-			var decodeJSON = JSON.Parse(www.text);
-			Debug.Log(decodeJSON[0]["timeStamp"] + " = " + decodeJSON[1]["timeStamp"] + " = " + decodeJSON[2]["timeStamp"]);
+			PlayerPrefs.SetString("jsonData",www.text);
+			jsonToList();
+			//
 		}
 		else
 		{
 			Debug.Log("WWW Error: " + www.error);
 		}
 	}
+	#endregion
 
-	/*
-	IEnumerator Upload(string qrCode) {
-		Hashtable data = new Hashtable();
-		data.Add("name", name);
-		data.Add("score", score);
-
-		HTTP.Request postRequest = new HTTP.Request("post", "https://Mygame.firebaseio.com/scores.json", data);
-		postRequest.Send(( request ) => {
-			Hashtable jsonObj = (Hashtable)JSON.JsonDecode(request.response.Text);
-			if(jsonObj == null) 
-			{
-				Debug.LogError("server returned null or malformed response ):");
+	public void jsonToList() {
+		if (PlayerPrefs.HasKey("jsonData")) {
+			var decodeJSON = JSON.Parse(PlayerPrefs.GetString("jsonData"));
+			for (int i = 0; i < decodeJSON.Count; i++) {
+				var fleetEventTmp = new fleetEvent();
+				fleetEventTmp.timeStamp = decodeJSON[i]["timeStamp"];
+				fleetEventTmp.originFleet = decodeJSON[i]["originFleet"];
+				fleetEventTmp.sizeFleet = decodeJSON[i]["sizeFleet"];
+				fleetEventTmp.destFleet = decodeJSON[i]["destFleet"];
+				fleetEventTmp.destCoords = decodeJSON[i]["destCoords"];
+				listFleet.Add(fleetEventTmp);
 			}
-		});
-	
-		WWWForm form = new WWWForm();
-		form.AddField("qrcode", qrCode);
-
-		UnityWebRequest www = UnityWebRequest.Post("http://timelaps.fr/Ogame/postData.php", form);
-		yield return www.Send();
-		Debug.Log(www.data);
-		if(www.isError) {
-			Debug.Log(www.error);
-		}
-		else {
-			Debug.Log("Form upload complete!");
 		}
 	}
-	*/
 }
