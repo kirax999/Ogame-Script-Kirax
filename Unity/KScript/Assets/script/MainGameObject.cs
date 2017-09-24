@@ -17,14 +17,10 @@ public class MainGameObject : MonoBehaviour {
 		var listFleet = GameObject.Find("Canvas").GetComponent<getDataQrCode>().listFleet;
 
 		foreach (var obj in listFleet) {
-			var eventTime = UnixTimeStampToDateTime(int.Parse(obj.timeStamp)).Subtract(System.DateTime.Now);
-
 			GameObject go = Instantiate(bodyFleet) as GameObject;
 			go.SetActive(true);
 			foreach (var item in go.GetComponentsInChildren<Text>()) {
-				if (item.name == "timeStamp")
-					item.text = eventTime.ToString();
-				else if  (item.name == "destCoords")
+				if  (item.name == "destCoords")
 					item.text = obj.destCoords;
 				else if  (item.name == "originFleet")
 					item.text = obj.originFleet;
@@ -33,24 +29,24 @@ public class MainGameObject : MonoBehaviour {
 				else if  (item.name == "sizeFleet")
 					item.text = obj.sizeFleet;
 			}
-			//go = info.Name;
-			//go.GetComponentInChildren<choiceLVLButton>().SetFile(info.Name);
+			go.GetComponent<bodyFleet>().timeStampValue = int.Parse(obj.timeStamp);
+			go.GetComponent<bodyFleet>().refreshTime();
 			go.transform.SetParent(bodyFleet.transform.parent);
 			go.transform.localScale = new Vector3(1, 1, 1);
 		}
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}
 
-	public static System.DateTime UnixTimeStampToDateTime(int unixTimeStamp)
-	{
-		// Unix timestamp is seconds past epoch
-		System.DateTime dtDateTime = new System.DateTime(1970,1,1,0,0,0,0,System.DateTimeKind.Utc);
-		dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
-		Debug.Log(dtDateTime);
-		return dtDateTime;
+	void FixedUpdate() {
+		foreach (var fleet in GameObject.FindGameObjectsWithTag("bodyFleet")) {
+			fleet.GetComponent<bodyFleet>().refreshTime();
+		}
+	}
+
+	private void refreshListFleet() {
+
 	}
 }

@@ -20,9 +20,6 @@ public class getDataQrCode : MonoBehaviour {
 		baseRotation = transform.rotation;
 		CameraCapture = GameObject.Find("CameraCapture");
 		camTexture = new WebCamTexture();
-
-		//camTexture.requestedHeight = (int)CameraCapture.GetComponent<RectTransform>().rect.height; 
-		//camTexture.requestedWidth = (int)CameraCapture.GetComponent<RectTransform>().rect.width;
 	}
 
 	#region camera QrCode Working
@@ -38,14 +35,14 @@ public class getDataQrCode : MonoBehaviour {
 	public void takePicture() {
 		try {
 			IBarcodeReader barcodeReader = new BarcodeReader ();
-			// decode the current frame
+
 			var result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width , camTexture.height);
 			if (result != null) {
 				Debug.Log("DECODED TEXT FROM QR: " + result.Text);
 
 				var dataSend = new Dictionary<string, string>();
 				dataSend.Add("qrcode",result.Text);
-				var postRequest = POST("http://timelaps.fr/Ogame/postData.php", dataSend);
+				POST("http://timelaps.fr/Ogame/postData.php", dataSend);
 			}
 		} catch ( Exception ex) {
 			Debug.Log(ex.Message);
