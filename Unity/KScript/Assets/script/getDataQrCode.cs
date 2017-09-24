@@ -92,6 +92,8 @@ public class getDataQrCode : MonoBehaviour {
 			for (int i = 0; i < decodeJSON.Count; i++) {
 				var fleetEventTmp = new fleetEvent();
 				fleetEventTmp.timeStamp = decodeJSON[i]["timeStamp"];
+				fleetEventTmp.isReturn = decodeJSON[i]["isReturn"];
+				fleetEventTmp.missionType = decodeJSON[i]["missionType"];
 				fleetEventTmp.originFleet = decodeJSON[i]["originFleet"];
 				fleetEventTmp.sizeFleet = decodeJSON[i]["sizeFleet"];
 				fleetEventTmp.destFleet = decodeJSON[i]["destFleet"];

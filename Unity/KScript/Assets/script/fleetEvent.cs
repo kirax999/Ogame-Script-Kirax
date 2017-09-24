@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 /*
  * senario.timeStamp
+ * senario.isReturn
+ * senario.missionType
  * senario.originFleet
  * senario.sizeFleet
  * senario.destFleet
@@ -13,6 +15,8 @@ using UnityEngine.UI;
 
 public class fleetEvent {
 	public string timeStamp;
+	public string isReturn;
+	public string missionType;
 	public string originFleet;
 	public string sizeFleet;
 	public string destFleet;

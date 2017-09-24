@@ -2,10 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\MainGameObject.cs">
     <Files>
-      <File FileName="Assets\script\MainGameObject.cs" Line="45" Column="50" />
-      <File FileName="Assets\script\getDataQrCode.cs" Line="7" Column="30" />
-      <File FileName="Assets\script\fleetEvent.cs" Line="15" Column="26" />
-      <File FileName="Assets\script\bodyFleet.cs" Line="19" Column="1" />
+      <File FileName="Assets\script\MainGameObject.cs" Line="77" Column="36" />
+      <File FileName="Assets\script\getDataQrCode.cs" Line="100" Column="60" />
+      <File FileName="Assets\script\fleetEvent.cs" Line="23" Column="27" />
+      <File FileName="Assets\script\bodyFleet.cs" Line="12" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -13,7 +13,6 @@
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="90" column="38" />
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="96" column="1" />
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="93" column="1" />
-      <Breakpoint file="C:\Users\alexa\Ogame-Script-Kirax\Unity\KScript\Assets\script\bodyFleet.cs" line="19" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
