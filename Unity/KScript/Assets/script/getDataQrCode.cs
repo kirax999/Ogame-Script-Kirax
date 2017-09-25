@@ -19,17 +19,32 @@ public class getDataQrCode : MonoBehaviour {
 	void Start() {
 		baseRotation = transform.rotation;
 		CameraCapture = GameObject.Find("CameraCapture");
-		camTexture = new WebCamTexture();
+		camTexture = new WebCamTexture(275, 275);
+		//camTexture = new WebCamTexture();
+		//var ratio = camTexture.requestedHeight / camTexture.requestedWidth;
+		//CameraCapture.GetComponent<RectTransform>().localScale = new Vector3(1, ratio, 1);
+		//CameraCapture.GetComponent<Rect>().width = 200f;
+		//CameraCapture.GetComponent<Rect>().height = 400f;
 	}
 
 	#region camera QrCode Working
 	public void openCamera() {
-		GameObject.Find("CanvasGetPicture").GetComponent<Canvas>().enabled = true;
-		CameraCapture.GetComponent<RawImage>().texture = camTexture;
-		//CameraCapture.transform.rotation = CameraCapture.transform.rotation;
+		if (!camTexture.isPlaying) {
+			GameObject.Find("CanvasGetPicture").GetComponent<Canvas>().enabled = true;
+			CameraCapture.GetComponent<RawImage>().texture = camTexture;
+
+			if (camTexture != null) {
+				camTexture.Play();
+			}
+		} else
+			closeCamera();
+	}
+
+	public void closeCamera() {
 		if (camTexture != null) {
-			camTexture.Play();
+			camTexture.Stop();
 		}
+		GameObject.Find("CanvasGetPicture").GetComponent<Canvas>().enabled = false;
 	}
 
 	public void takePicture() {
@@ -43,6 +58,7 @@ public class getDataQrCode : MonoBehaviour {
 				var dataSend = new Dictionary<string, string>();
 				dataSend.Add("qrcode",result.Text);
 				POST("http://timelaps.fr/Ogame/postData.php", dataSend);
+				GameObject.Find("Canvas").GetComponent<getDataQrCode>().closeCamera();
 			}
 		} catch ( Exception ex) {
 			Debug.Log(ex.Message);

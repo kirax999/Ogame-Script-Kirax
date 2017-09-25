@@ -27,9 +27,11 @@ public class MainGameObject : MonoBehaviour {
 
 		foreach (var obj in listFleet) {
 			GameObject go = Instantiate(bodyFleet) as GameObject;
-			var color = "FFFFFF";
+			bodyFleet bodyfleet = go.GetComponent<bodyFleet>();
+			var color = "FFFFFFFF";
 			go.SetActive(true);
 
+			try {
 			switch (int.Parse(obj.missionType)) {
 				case 1:
 					color = "D43635";
@@ -66,6 +68,8 @@ public class MainGameObject : MonoBehaviour {
 				color += "AA";
 			else 
 				color += "FF";
+			}catch{
+			}
 
 			foreach (var item in go.GetComponentsInChildren<Text>()) {
 				if (item.name == "destCoords")
@@ -77,6 +81,8 @@ public class MainGameObject : MonoBehaviour {
 				else if (item.name == "sizeFleet")
 					item.text = obj.sizeFleet;
 				item.color = HexToColor(color);
+				if (obj.isReturn == "false")
+					item.fontStyle = FontStyle.Bold;
 			}
 			foreach (var item in go.GetComponentsInChildren<Image>()) {
 				if (item.name == "returnFleet")
@@ -86,8 +92,10 @@ public class MainGameObject : MonoBehaviour {
 					if (obj.isReturn == "false")
 						item.enabled = true;
 			}
-			go.GetComponent<bodyFleet>().timeStampValue = int.Parse(obj.timeStamp);
-			go.GetComponent<bodyFleet>().refreshTime();
+			bodyfleet.timeStampValue = int.Parse(obj.timeStamp);
+			bodyfleet.isReturn = obj.isReturn;
+			bodyfleet.refreshTime();
+			bodyfleet.makeNotification();
 			go.transform.SetParent(bodyFleet.transform.parent);
 			go.transform.localScale = new Vector3(1, 1, 1);
 		}
