@@ -33,6 +33,7 @@ public class bodyFleet : MonoBehaviour {
 	}
 
 	public void makeNotification() {
+		#if UNITY_IPHONE
 		var localNotif = new UnityEngine.iOS.LocalNotification();
 		localNotif.alertAction = "Your fleet arrive in 5 minutes";
 		if (isReturn == "true")
@@ -52,5 +53,9 @@ public class bodyFleet : MonoBehaviour {
 		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif2);
 
 		UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
+		#endif
+		#if UNITY_ANDROID
+
+		#endif
 	}
 }
