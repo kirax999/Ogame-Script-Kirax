@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name       KScript
+// @name       KScript-beta
 // @namespace  http://richet.me/
-// @version    1.5
+// @version    1.7
 // @description  Script Ogame for make a scenario mission spatiale
 // @include    *.ogame*/game/*
 // @copyright  MIT, Kirax999
@@ -13,8 +13,8 @@
 // @grant    GM_addStyle
 // @grant    GM_deleteValue
 // @grant    GM_xmlhttpRequest
-// @grant          GM_xmlhttpRequest
-// @connect        timelaps.fr
+// @grant    GM_xmlhttpRequest
+// @connect  timelaps.fr
 // ==/UserScript==
 
 /*
@@ -117,7 +117,10 @@ GM_addStyle(
     'background: #9300AB;' +
     '}' +
     '.saveSend table tr td { width:33%; text-align: center }' +
-    '.saveSend table { width:100% }'
+    '.saveSend table { width:100% }' +
+    '#callFleetQrCode { margin: -15px 5px 0 0; background: transparent url(//gf2.geo.gfsrv.net/cdn71/fc7a8ed….gif) no-repeat top left; float: right; }' +
+    '#qrcodeWindow { text-align: center; width: 346px; left: calc(50% - 172px); height: calc(50% - 172px); position:absolute; height: 370px }' +
+    '#qrcodeWindow img { width:326px }'
 );
 
 $(document).ready(function() {
@@ -147,6 +150,12 @@ $(document).ready(function() {
         }, 0);
     });
 
+    $("#messages_collapsed #eventboxFilled").append('<div id="callFleetQrCode">Qr Code</div>');
+
+    $("#messages_collapsed #eventboxFilled #callFleetQrCode").click(function() {
+        copyFleetMovement();
+    });
+
     if (paramsKS.refreshantigame == "true") {
         refreshAntiGame();
     }
@@ -161,20 +170,6 @@ $(document).ready(function() {
     if (GM_getValue("refreshAntiGame") !== undefined) {
         refreshAntiGamePlay();
     }
-
-    /*
-     if ($(".ago_panel_wrapper") !== undefined) {
-     var ghoster = '<div id="ago_panel_KScript">';
-     ghoster += '<div class="ago_panel_tab" ago-data="{"update":{"tab":"Target","status":"toggle"}}">';
-     ghoster += 'Ghoster<span class="ago_panel_tab_info"></span>';
-     ghoster += '</div>';
-     ghoster += '<div class="ago_panel_tab_content">';
-     ghoster += '<br><br><br>'
-     ghoster += '</div>';
-     ghoster += '</div>';
-     $(ghoster).insertAfter("#ago_panel_Target");
-     }
-     */
 });
 
 function ghosterOgame () {
@@ -624,7 +619,6 @@ function refreshAntiGame () {
 function refreshAntiGamePlay () {
     data = GM_getValue("refreshAntiGame");
 
-    //console.log(data);
     if (data.status < data.position.length) {
         var url = "http://" + window.location.hostname + "/game/index.php/?page=overview&";
         url += "cp=" + data.position[data.status] + "&";
@@ -724,6 +718,58 @@ function paramsMenuKscript () {
     $("#KSparamsReset").click(function() {
         resetParams();
     });
+}
+
+function copyFleetMovement() {
+    setTimeout(function(){
+        if($('#eventboxContent').css('display') == 'none') {
+            simulateMouseClick($("#eventboxFilled"));
+        }
+        var data = [];
+        $("#eventContent tbody").children().each(function(idx, val){
+            if (String($(this).attr("class")).includes("eventFleet")) {
+                console.log($(this).attr("class"));
+                var senario = {};
+                senario.timeStamp = $(this).attr("data-arrival-time");
+                senario.isReturn = $(this).attr("data-return-flight");
+                senario.missionType = $(this).attr("data-mission-type");
+                senario.originFleet = $(this).children(".originFleet").text().trim();
+                senario.sizeFleet = $(this).children(".detailsFleet").text().trim();
+                senario.destFleet = $(this).children(".destFleet").text().trim();
+                senario.destCoords = $(this).children(".destCoords").text().trim();
+                data.push(senario);
+            }
+        });
+        var myJsonString = JSON.stringify(data);
+        GM_xmlhttpRequest({
+            method: "POST",
+            url: "https://timelaps.fr/Ogame/generateQrCode.php",
+            data: "data=" + encodeURIComponent(myJsonString),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            onload: function(response) {
+                //
+                var menu = '<div id="qrcodeWindow" class="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable" tabindex="-1" role="dialog" style="">';
+                menu += '<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix ui-draggable-handle">';
+                menu += '<span id="ui-id-8" class="ui-dialog-title">QrCode Kscript</span>';
+                menu += '<button id="closeButtonQrCode" type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ui-dialog-titlebar-close" role="button" title="">';
+                menu += '<span class="ui-button-icon-primary ui-icon ui-icon-closethick"></span><span class="ui-button-text"></span></button></div>';
+                menu += '<div class="overlayDiv notices ui-dialog-content ui-widget-content" style="width: auto; min-height: 109px; max-height: none; height: auto;" data-page="notices" id="ui-id-7">';
+                menu += response.responseText;
+                menu += '</div>';
+                menu += '</div>';
+
+                $("body").append(menu);
+
+                $("#closeButtonQrCode").click(function() {
+                    $("#qrcodeWindow").remove();
+                });
+
+                console.log(response.responseText);
+            }
+        });
+    }, 250);
 }
 
 function resetParams () {

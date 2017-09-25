@@ -21,9 +21,28 @@ public class MainGameObject : MonoBehaviour {
 	public GameObject bodyFleet;
 	// Use this for initialization
 	void Start () {
+		refreshListFleet();
+	}
+	
+	void Update () {
+		
+	}
+
+	void FixedUpdate() {
+		foreach (var fleet in GameObject.FindGameObjectsWithTag("bodyFleet")) {
+			fleet.GetComponent<bodyFleet>().refreshTime();
+		}
+	}
+
+	public void refreshListFleet() {
 		GameObject.Find("Canvas").GetComponent<getDataQrCode>().jsonToList();
 
 		var listFleet = GameObject.Find("Canvas").GetComponent<getDataQrCode>().listFleet;
+
+		foreach (var line in GameObject.FindGameObjectsWithTag("bodyFleet")) {
+			if (line.name == "bodyFleet(Clone)")
+				Destroy(line);
+		}
 
 		foreach (var obj in listFleet) {
 			GameObject go = Instantiate(bodyFleet) as GameObject;
@@ -32,42 +51,42 @@ public class MainGameObject : MonoBehaviour {
 			go.SetActive(true);
 
 			try {
-			switch (int.Parse(obj.missionType)) {
-				case 1:
-					color = "D43635";
-				break;
-				case 2:
-					color = "D43635";
-				break;
-				case 3:
-					color = "7EAD3D";
-				break;
-				case 4:
-					color = "36B588";
-				break;
-				case 5:
-					color = "D57936";
-				break;
-				case 6:
-					color = "BD9B2F";
-				break;
-				case 7:
-					color = "2BBFBF";
-				break;
-				case 8:
-					color = "11A140";
-				break;
-				case 9:
-					color = "FF3356";
-				break;
-				case 15:
-					color = "4162A5";
-				break;
-			}
-			if (obj.isReturn == "true")
-				color += "AA";
-			else 
-				color += "FF";
+				switch (int.Parse(obj.missionType)) {
+					case 1:
+						color = "D43635";
+					break;
+					case 2:
+						color = "D43635";
+					break;
+					case 3:
+						color = "7EAD3D";
+					break;
+					case 4:
+						color = "36B588";
+					break;
+					case 5:
+						color = "D57936";
+					break;
+					case 6:
+						color = "BD9B2F";
+					break;
+					case 7:
+						color = "2BBFBF";
+					break;
+					case 8:
+						color = "11A140";
+					break;
+					case 9:
+						color = "FF3356";
+					break;
+					case 15:
+						color = "4162A5";
+					break;
+				}
+				if (obj.isReturn == "true")
+					color += "AA";
+				else 
+					color += "FF";
 			}catch{
 			}
 
@@ -99,20 +118,6 @@ public class MainGameObject : MonoBehaviour {
 			go.transform.SetParent(bodyFleet.transform.parent);
 			go.transform.localScale = new Vector3(1, 1, 1);
 		}
-	}
-	
-	void Update () {
-		
-	}
-
-	void FixedUpdate() {
-		foreach (var fleet in GameObject.FindGameObjectsWithTag("bodyFleet")) {
-			fleet.GetComponent<bodyFleet>().refreshTime();
-		}
-	}
-
-	private void refreshListFleet() {
-
 	}
 
 	Color HexToColor(string hex)

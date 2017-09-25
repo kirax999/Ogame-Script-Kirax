@@ -20,11 +20,10 @@ public class getDataQrCode : MonoBehaviour {
 		baseRotation = transform.rotation;
 		CameraCapture = GameObject.Find("CameraCapture");
 		camTexture = new WebCamTexture(275, 275);
-		//camTexture = new WebCamTexture();
-		//var ratio = camTexture.requestedHeight / camTexture.requestedWidth;
-		//CameraCapture.GetComponent<RectTransform>().localScale = new Vector3(1, ratio, 1);
-		//CameraCapture.GetComponent<Rect>().width = 200f;
-		//CameraCapture.GetComponent<Rect>().height = 400f;
+	}
+
+	void Update () {
+		CameraCapture.transform.rotation = baseRotation * Quaternion.AngleAxis(camTexture.videoRotationAngle, Vector3.back);
 	}
 
 	#region camera QrCode Working
@@ -65,10 +64,6 @@ public class getDataQrCode : MonoBehaviour {
 		}
 	}
 	#endregion
-	
-	void Update () {
-		CameraCapture.transform.rotation = baseRotation * Quaternion.AngleAxis(camTexture.videoRotationAngle, Vector3.back);
-	}
 
 	#region network data send and receve
 	public WWW POST(string url, Dictionary<string, string> post)
@@ -93,18 +88,17 @@ public class getDataQrCode : MonoBehaviour {
 		{
 			PlayerPrefs.SetString("jsonData",www.text);
 			jsonToList();
-			//
+			GameObject.Find("MainGameObject").GetComponent<MainGameObject>().refreshListFleet();
 		}
 		else
-		{
 			Debug.Log("WWW Error: " + www.error);
-		}
 	}
 	#endregion
 
 	public void jsonToList() {
 		if (PlayerPrefs.HasKey("jsonData")) {
 			var decodeJSON = JSON.Parse(PlayerPrefs.GetString("jsonData"));
+			listFleet.Clear();
 			for (int i = 0; i < decodeJSON.Count; i++) {
 				var fleetEventTmp = new fleetEvent();
 				fleetEventTmp.timeStamp = decodeJSON[i]["timeStamp"];
