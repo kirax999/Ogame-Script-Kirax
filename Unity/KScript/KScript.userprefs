@@ -3,9 +3,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/bodyFleet.cs">
     <Files>
       <File FileName="Assets/script/MainGameObject.cs" Line="1" Column="1" />
-      <File FileName="Assets/script/bodyFleet.cs" Line="59" Column="9" />
+      <File FileName="Assets/script/bodyFleet.cs" Line="80" Column="28" />
       <File FileName="Assets/script/fleetEvent.cs" Line="1" Column="1" />
       <File FileName="Assets/script/getDataQrCode.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/paramsCanvas.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -13,6 +14,7 @@
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="90" column="38" />
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="96" column="1" />
       <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame/calc-all-source-ogame/Unity/KScript/Assets/getDataQrCode.cs" line="93" column="1" />
+      <Breakpoint file="/Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/Assets/script/paramsCanvas.cs" line="45" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

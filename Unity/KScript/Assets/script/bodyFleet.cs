@@ -16,6 +16,13 @@ public class bodyFleet : MonoBehaviour {
 	public int timeStampValue;
 	public string isReturn;
 
+	void Start () {
+		if (!PlayerPrefs.HasKey("notificationImpact"))
+			PlayerPrefs.SetInt("notificationImpact", 1);
+		if (!PlayerPrefs.HasKey("notificationBefore"))
+			PlayerPrefs.SetInt("notificationImpact", 5);
+	}
+
 	public void refreshTime() {
 		var time = UnixTimeStampToDateTime(timeStampValue).Subtract(System.DateTime.Now);
 		if (time.TotalSeconds > 0)
@@ -34,28 +41,54 @@ public class bodyFleet : MonoBehaviour {
 
 	public void makeNotification() {
 		#if UNITY_IPHONE
-		var localNotif = new UnityEngine.iOS.LocalNotification();
-		localNotif.alertAction = "Your fleet arrive in 5 minutes";
-		if (isReturn == "true")
-			localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
-		else
-			localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
-		localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - 300));
-		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif);
+		if (PlayerPrefs.GetInt("notificationBefore") > 0) {
+			var localNotif = new UnityEngine.iOS.LocalNotification();
+			localNotif.alertAction = "Your fleet arrive in 5 minutes";
+			if (isReturn == "true")
+				localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+			else
+				localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+			localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - PlayerPrefs.GetInt("notificationBefore")));
+			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif);
+		}
 
-		var localNotif2 = new UnityEngine.iOS.LocalNotification();
-		localNotif2.alertAction = "Your fleet arrive";
-		if (isReturn == "true")
-			localNotif2.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text;
-		else
-			localNotif2.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text;
-		localNotif2.fireDate = UnixTimeStampToDateTime((timeStampValue));
-		UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif2);
+		if (PlayerPrefs.GetInt("notificationImpact") == 1) {
+			var localNotif2 = new UnityEngine.iOS.LocalNotification();
+			localNotif2.alertAction = "Your fleet arrive";
+			if (isReturn == "true")
+				localNotif2.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text;
+			else
+				localNotif2.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text;
+			localNotif2.fireDate = UnixTimeStampToDateTime((timeStampValue));
+			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif2);
 
-		UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
+			UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
+		}
 		#endif
 		#if UNITY_ANDROID
+		if (PlayerPrefs.GetInt("notificationBefore") > 0) {
+			var localNotif = new UnityEngine.iOS.LocalNotification();
+			localNotif.alertAction = "Your fleet arrive in 5 minutes";
+			if (isReturn == "true")
+			localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+			else
+			localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+			localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - PlayerPrefs.GetInt("notificationBefore")));
+			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif);
+		}
 
+		if (PlayerPrefs.GetInt("notificationImpact") == 1) {
+			var localNotif2 = new UnityEngine.iOS.LocalNotification();
+			localNotif2.alertAction = "Your fleet arrive";
+			if (isReturn == "true")
+			localNotif2.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text;
+			else
+			localNotif2.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text;
+			localNotif2.fireDate = UnixTimeStampToDateTime((timeStampValue));
+			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif2);
+
+			UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
+		}
 		#endif
 	}
 }

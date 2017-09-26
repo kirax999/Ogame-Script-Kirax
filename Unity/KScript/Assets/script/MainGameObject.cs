@@ -21,6 +21,10 @@ public class MainGameObject : MonoBehaviour {
 	public GameObject bodyFleet;
 	// Use this for initialization
 	void Start () {
+		if (!PlayerPrefs.HasKey("notificationImpact"))
+			PlayerPrefs.SetInt("notificationImpact", 1);
+		if (!PlayerPrefs.HasKey("notificationBefore"))
+			PlayerPrefs.SetInt("notificationImpact", 5);
 		refreshListFleet();
 	}
 	

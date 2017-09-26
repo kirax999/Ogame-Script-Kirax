@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KScript", "Assembly-CSharp.csproj", "{1535AB06-FE5A-7C8C-84AD-FE21A547F01E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KScript", "Assembly-CSharp-firstpass.csproj", "{17D59BA9-1970-D81D-8993-F787A7FCE123}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{1535AB06-FE5A-7C8C-84AD-FE21A547F01E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1535AB06-FE5A-7C8C-84AD-FE21A547F01E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1535AB06-FE5A-7C8C-84AD-FE21A547F01E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17D59BA9-1970-D81D-8993-F787A7FCE123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17D59BA9-1970-D81D-8993-F787A7FCE123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17D59BA9-1970-D81D-8993-F787A7FCE123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17D59BA9-1970-D81D-8993-F787A7FCE123}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
