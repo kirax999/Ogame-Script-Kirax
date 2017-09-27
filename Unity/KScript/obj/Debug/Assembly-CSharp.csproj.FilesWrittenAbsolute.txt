@@ -48,3 +48,5 @@
 /Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/Temp/bin/Debug/Assembly-CSharp.dll
 /Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/obj/Debug/.NETFramework,Version=v4.6.AssemblyAttribute.cs
 /Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/Temp/bin/Debug/Assembly-CSharp-firstpass.dll
+/Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript/Temp/bin/Debug/Assembly-CSharp-firstpass.dll.mdb

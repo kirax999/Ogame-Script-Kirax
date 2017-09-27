@@ -82,13 +82,16 @@ public class getDataQrCode : MonoBehaviour {
 	private IEnumerator WaitForRequest(WWW www)
 	{
 		yield return www;
-
+		Debug.Log("*" + www.error + "*");
 		// check for errors
-		if (www.error == "")
+		if (www.error == "" || www.error == null)
 		{
 			PlayerPrefs.SetString("jsonData",www.text);
 			jsonToList();
 			GameObject.Find("MainGameObject").GetComponent<MainGameObject>().refreshListFleet();
+			if (UnityEngine.Random.Range(0, 10) >= 7) {
+				AdBuddizBinding.ShowAd();
+			}
 		}
 		else
 			Debug.Log("WWW Error: " + www.error);

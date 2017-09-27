@@ -48,7 +48,7 @@ public class bodyFleet : MonoBehaviour {
 				localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
 			else
 				localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
-			localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - PlayerPrefs.GetInt("notificationBefore")));
+			localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - (PlayerPrefs.GetInt("notificationBefore") * 60)));
 			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif);
 		}
 
@@ -66,6 +66,7 @@ public class bodyFleet : MonoBehaviour {
 		}
 		#endif
 		#if UNITY_ANDROID
+
 		if (PlayerPrefs.GetInt("notificationBefore") > 0) {
 			var localNotif = new UnityEngine.iOS.LocalNotification();
 			localNotif.alertAction = "Your fleet arrive in 5 minutes";
@@ -89,6 +90,7 @@ public class bodyFleet : MonoBehaviour {
 
 			UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);
 		}
+
 		#endif
 	}
 }

@@ -26,6 +26,13 @@ public class MainGameObject : MonoBehaviour {
 		if (!PlayerPrefs.HasKey("notificationBefore"))
 			PlayerPrefs.SetInt("notificationImpact", 5);
 		refreshListFleet();
+
+		#if UNITY_IPHONE
+		AdBuddizBinding.SetIOSPublisherKey("67ae8096-ed6f-4887-a78e-83435733ecfb");
+		AdBuddizBinding.CacheAds();
+		#endif
+		#if UNITY_ANDROID
+		#endif
 	}
 	
 	void Update () {
