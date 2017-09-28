@@ -45,10 +45,11 @@ public class bodyFleet : MonoBehaviour {
 			var localNotif = new UnityEngine.iOS.LocalNotification();
 			localNotif.alertAction = "Your fleet arrive in 5 minutes";
 			if (isReturn == "true")
-				localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+				localNotif.alertBody = "Fleet return " + originFleet.text + " arrive in " + destCoords.text + " on " + PlayerPrefs.GetInt("notificationBefore") + " minutes";
 			else
-				localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on 5 minutes";
+				localNotif.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text + " on " + PlayerPrefs.GetInt("notificationBefore") + " minutes";
 			localNotif.fireDate = UnixTimeStampToDateTime((timeStampValue - (PlayerPrefs.GetInt("notificationBefore") * 60)));
+			localNotif.soundName = UnityEngine.iOS.LocalNotification.defaultSoundName;
 			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif);
 		}
 
@@ -60,6 +61,7 @@ public class bodyFleet : MonoBehaviour {
 			else
 				localNotif2.alertBody = "Fleet from " + originFleet.text + " arrive in " + destCoords.text;
 			localNotif2.fireDate = UnixTimeStampToDateTime((timeStampValue));
+			localNotif2.soundName = UnityEngine.iOS.LocalNotification.defaultSoundName;
 			UnityEngine.iOS.NotificationServices.ScheduleLocalNotification(localNotif2);
 
 			UnityEngine.iOS.NotificationServices.RegisterForNotifications(NotificationType.Alert | NotificationType.Badge | NotificationType.Sound);

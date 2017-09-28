@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.iOS;
 using UnityEngine.UI;
 
 /*
@@ -28,6 +29,7 @@ public class MainGameObject : MonoBehaviour {
 		refreshListFleet();
 
 		#if UNITY_IPHONE
+		UnityEngine.iOS.NotificationServices.CancelAllLocalNotifications();
 		AdBuddizBinding.SetIOSPublisherKey("67ae8096-ed6f-4887-a78e-83435733ecfb");
 		AdBuddizBinding.CacheAds();
 		#endif
@@ -36,7 +38,7 @@ public class MainGameObject : MonoBehaviour {
 	}
 	
 	void Update () {
-		
+		Debug.Log(Random.Range(1,3));
 	}
 
 	void FixedUpdate() {

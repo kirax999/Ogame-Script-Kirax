@@ -89,7 +89,7 @@ public class getDataQrCode : MonoBehaviour {
 			PlayerPrefs.SetString("jsonData",www.text);
 			jsonToList();
 			GameObject.Find("MainGameObject").GetComponent<MainGameObject>().refreshListFleet();
-			if (UnityEngine.Random.Range(0, 10) >= 7) {
+			if (UnityEngine.Random.Range(1, 3) == 1) {
 				AdBuddizBinding.ShowAd();
 			}
 		}
