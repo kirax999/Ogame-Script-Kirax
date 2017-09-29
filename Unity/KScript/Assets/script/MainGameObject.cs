@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.iOS;
 using UnityEngine.UI;
 
+#if UNITY_ANDROID
+using Assets.SimpleAndroidNotifications;
+#endif
+
 /*
  * 1 Attaquer				#D43635
  * 2 Attaque groupe			#D43635
@@ -34,11 +38,14 @@ public class MainGameObject : MonoBehaviour {
 		AdBuddizBinding.CacheAds();
 		#endif
 		#if UNITY_ANDROID
+		NotificationManager.CancelAll();
+		//AdBuddizBinding.SetIOSPublisherKey("67ae8096-ed6f-4887-a78e-83435733ecfb");
+		//AdBuddizBinding.CacheAds();
 		#endif
 	}
 	
 	void Update () {
-		Debug.Log(Random.Range(1,3));
+		
 	}
 
 	void FixedUpdate() {

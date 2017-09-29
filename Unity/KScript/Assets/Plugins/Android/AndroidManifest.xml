@@ -16,6 +16,8 @@
     
     <!-- Mandatory permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
     
     <!-- Highly recommended permission to get more ads and revenue -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
