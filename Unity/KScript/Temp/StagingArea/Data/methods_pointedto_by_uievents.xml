@@ -1,0 +1,14 @@
+<linker>
+	<assembly fullname="Assembly-CSharp">
+		<type fullname="paramsCanvas">
+			<method name="openParams"/>
+			<method name="openParams"/>
+			<method name="saveParams"/>
+		</type>
+		<type fullname="getDataQrCode">
+			<method name="openCamera"/>
+			<method name="closeCamera"/>
+			<method name="takePicture"/>
+		</type>
+	</assembly>
+</linker>

@@ -39,8 +39,8 @@ public class MainGameObject : MonoBehaviour {
 		#endif
 		#if UNITY_ANDROID
 		NotificationManager.CancelAll();
-		//AdBuddizBinding.SetIOSPublisherKey("67ae8096-ed6f-4887-a78e-83435733ecfb");
-		//AdBuddizBinding.CacheAds();
+		AdBuddizBinding.SetIOSPublisherKey("127826c5-56f7-44c9-8855-131e6fe5d23a");
+		AdBuddizBinding.CacheAds();
 		#endif
 	}
 	

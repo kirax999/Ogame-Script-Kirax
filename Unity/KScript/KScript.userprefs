@@ -1,12 +1,13 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/bodyFleet.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/getDataQrCode.cs">
     <Files>
-      <File FileName="Assets/script/MainGameObject.cs" Line="32" Column="30" />
-      <File FileName="Assets/script/bodyFleet.cs" Line="65" Column="65" />
+      <File FileName="Assets/script/MainGameObject.cs" Line="42" Column="75" />
+      <File FileName="Assets/script/bodyFleet.cs" Line="83" Column="146" />
       <File FileName="Assets/script/fleetEvent.cs" Line="1" Column="1" />
-      <File FileName="Assets/script/getDataQrCode.cs" Line="92" Column="4" />
+      <File FileName="Assets/script/getDataQrCode.cs" Line="93" Column="15" />
       <File FileName="Assets/script/paramsCanvas.cs" Line="23" Column="28" />
+      <File FileName="Assets/SimpleAndroidNotifications/NotificationExample.cs" Line="24" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_MinSize: {x: 683, y: 342}
   m_MaxSize: {x: 12008, y: 8042}
   vertical: 0
-  controlID: 100
+  controlID: 44
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_MinSize: {x: 406, y: 342}
   m_MaxSize: {x: 8006, y: 8042}
   vertical: 1
-  controlID: 67
+  controlID: 45
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -325,19 +325,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/image
+    - Assets/Plugins
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/image
+  - Assets/Plugins
   m_LastFoldersGridSize: 16
   m_LastProjectPath: /Users/alexandrerichet/Dropbox/Developpeur/Ogame-Script-Kirax/Unity/KScript
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 62260000
-    m_LastClickedID: 9826
-    m_ExpandedIDs: 00000000362600003a2600004c26000000ca9a3bffffff7f
+    m_SelectedIDs: 42260000
+    m_LastClickedID: 9794
+    m_ExpandedIDs: 00000000362600003a260000422600004c26000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -390,26 +390,26 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: c440ffff
-    m_LastClickedInstanceID: -48956
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 42010000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: AndroidManifest
+      m_OriginalName: AndroidManifest
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 9832
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 0}
+      m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -481,23 +481,23 @@ MonoBehaviour:
     height: 583
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 06690000
-    m_LastClickedID: 26886
-    m_ExpandedIDs: 86c9fcffe2c9fcffdacafcff64cffcffc0cffcffb8d0fcff0ed4fcff62d4fcff5ad5fcfffe4effff6e4fffff6a50ffff3684ffff8a84ffff8685ffff50b6ffffdeb6ffffd6b7ffff0abcffff6abcffff66bdffff1afcffff000000005a380000b23800007a3900009e390000e66700003e6800002a690000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: 9870f3ff3871f3ff2e72f3ffdc75f3ff7c76f3ff7277f3ffce7bf3ff6e7cf3ff687df3ff402bf4ffe02bf4ffd62cf4ffa267f4ff4268f4ff3869f4ff906cf4ff306df4ff266ef4ffc471f4ff6472f4ff5a73f4ff9a78f4ff3279f4ff287af4ff4caff4ffacaff4ffa2b0f4ffde99f5ff829af5ff789bf5ff26b4f5ffbeb4f5ffb4b5f5ffe0bcf5ff86bdf5ff7cbef5ff8ac4f5ffdec4f5ffd8c5f5ffea94fdff4a95fdff4496fdffe2a9fdff40aafdff36abfdff6cc0fdffdcc0fdffd2c1fdff46d1fdffb6d1fdffacd2fdff9a13feff0a14feff0015feff7817feffe817feffde18feff821bfefff21bfeffe81cfeffec1efeff5c1ffeff5620feffc865feff2066feff1667feffd099feff269afeff1c9bfeff1afcffff0000000084260000dc260000a4270000c82700000a370000be3900006e3c00001e3f000048530000905300005a570000b6830000fe830000368900007e89000022a600005aa60000caa60000f2a60000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Content
-      m_OriginalName: Content
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 14714
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 4}
     m_SearchString: 
@@ -533,14 +533,14 @@ MonoBehaviour:
     width: 1149
     height: 583
   m_SceneLighting: 1
-  lastFramingTime: 2087.397027015686
+  lastFramingTime: 12146.211962044239
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 741.0872, y: 265.03253, z: 0}
+    m_Target: {x: 8.843746, y: 8.84375, z: 0}
     speed: 2
-    m_Value: {x: 741.0872, y: 265.03253, z: 0}
+    m_Value: {x: 8.843746, y: 8.84375, z: 0}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -567,9 +567,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1013.54535
+    m_Target: 237.54361
     speed: 2
-    m_Value: 1013.54535
+    m_Value: 237.54361
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -609,13 +609,13 @@ MonoBehaviour:
   m_MaximizeOnPlay: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 0000000000000000070000000e000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 00000000000000000f0000000e000000000000000000000000000000000000000000000000000000
   m_TargetDisplay: 0
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
-    m_HBaseRangeMin: -159.1875
-    m_HBaseRangeMax: 159.1875
+    m_HBaseRangeMin: -176.875
+    m_HBaseRangeMax: 176.875
     m_VBaseRangeMin: -283
     m_VBaseRangeMax: 283
     m_HAllowExceedBaseRangeMin: 1
